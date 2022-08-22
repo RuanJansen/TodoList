@@ -20,14 +20,14 @@ struct AddView: View {
                     HStack{
                         Text("Title")
                         Spacer()
-                        TextField("Title", text: $title)
+                        TextField("", text: $title)
                         
                     }.padding(.top)
                      Divider()
                     HStack{
                         Text("Description")
                         Spacer()
-                        TextField("Description", text: $description).background()
+                        TextField("", text: $description).background()
                         
                     }.padding(.top)
                      Divider()
@@ -43,8 +43,8 @@ struct AddView: View {
                          Capsule()
                              .frame(width: 130, height: 50)
                              .foregroundColor(.blue)
-                         Button("Mark as done") {
-                             
+                         Button("Add task") {
+                             viewController.addTask(title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: false, isArchived: false)
                          }.foregroundColor(.white)
                      }
                  }.padding(.bottom)

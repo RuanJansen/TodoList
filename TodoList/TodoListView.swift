@@ -20,15 +20,12 @@ struct TodoListView: View {
                             HStack{
                                 Text("\(task.title)")
                                 Spacer()
-                                
                             }
                             HStack{
                                 Text("\(task.dueDate.formatted())")
                                 Spacer()
                             }
-                        }.padding()
-                        
-                        
+                        }  
                     }
                     
                 }

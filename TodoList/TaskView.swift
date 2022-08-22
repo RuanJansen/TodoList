@@ -30,7 +30,6 @@ struct TaskView: View {
                     .frame(height: 200)
                     Spacer()
                 }
-                
                 VStack{
                     Spacer()
                     HStack{
@@ -54,6 +53,17 @@ struct TaskView: View {
                     }.padding(.bottom)
                 }
             }.navigationTitle("\(task.title)").padding()
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button{
+                            
+                        }label: {
+                            Label("Delete", systemImage: "trash.circle.fill")
+                        }
+                    }
+                    
+                }
+            
         }
     }
 }

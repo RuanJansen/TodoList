@@ -24,9 +24,6 @@ struct ArchivedListView: View {
                             }label: {
                                 Label("Unarchive", systemImage: "archivebox")
                             }
-                                
-                            
-                            
                         }.padding()
                     }
                     
