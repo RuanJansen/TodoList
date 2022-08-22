@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        NavbarView()
+        TodoListView(taskItem: Tasks(id: 0, title: "", description: "", entryDate: Date(), dueDate: Date(), isDone: false, isArchived: false))
     }
 }
 

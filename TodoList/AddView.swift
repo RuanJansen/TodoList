@@ -42,7 +42,7 @@ struct AddView: View {
                      ZStack {
                          Capsule()
                              .frame(width: 130, height: 50)
-                             .foregroundColor(.green)
+                             .foregroundColor(.blue)
                          Button("Mark as done") {
                              
                          }.foregroundColor(.white)

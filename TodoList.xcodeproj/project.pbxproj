@@ -19,7 +19,6 @@
 		1A72C45A28B363BB00D3D122 /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C45928B363BB00D3D122 /* TodoListViewController.swift */; };
 		1A72C45C28B3689900D3D122 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C45B28B3689900D3D122 /* TaskView.swift */; };
 		1A72C45E28B36A7A00D3D122 /* AddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C45D28B36A7A00D3D122 /* AddView.swift */; };
-		1A72C46028B36C6D00D3D122 /* NavbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C45F28B36C6D00D3D122 /* NavbarView.swift */; };
 		1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C46128B3830D00D3D122 /* ArchivedListView.swift */; };
 /* End PBXBuildFile section */
 
@@ -56,7 +55,6 @@
 		1A72C45928B363BB00D3D122 /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
 		1A72C45B28B3689900D3D122 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		1A72C45D28B36A7A00D3D122 /* AddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddView.swift; sourceTree = "<group>"; };
-		1A72C45F28B36C6D00D3D122 /* NavbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavbarView.swift; sourceTree = "<group>"; };
 		1A72C46128B3830D00D3D122 /* ArchivedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedListView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -117,7 +115,6 @@
 				1A72C45928B363BB00D3D122 /* TodoListViewController.swift */,
 				1A72C45B28B3689900D3D122 /* TaskView.swift */,
 				1A72C45D28B36A7A00D3D122 /* AddView.swift */,
-				1A72C45F28B36C6D00D3D122 /* NavbarView.swift */,
 				1A72C46128B3830D00D3D122 /* ArchivedListView.swift */,
 			);
 			path = TodoList;
@@ -278,7 +275,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A72C46028B36C6D00D3D122 /* NavbarView.swift in Sources */,
 				1A72C42C28B362A000D3D122 /* ContentView.swift in Sources */,
 				1A72C45E28B36A7A00D3D122 /* AddView.swift in Sources */,
 				1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */,

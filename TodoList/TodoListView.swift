@@ -12,30 +12,49 @@ struct TodoListView: View {
     @State var taskItem: Tasks
     var body: some View {
         NavigationView {
-            List(viewController.tasks.filter {!$0.isArchived}){ task in
-//                ForEach(viewController.tasks, id: \.title){ task in
+            VStack {
+                List(viewController.tasks.filter {!$0.isArchived}){ task in
                     var taskItem = task
                     NavigationLink(destination: TaskView(task: $taskItem)){
-//                        if !task.isArchived{
-                            VStack {
-                                HStack{
-                                    Text("\(task.title)")
-                                    Spacer()
-                                    
-                                }
-                                HStack{
-                                    Text("\(task.dueDate.formatted())")
-                                    Spacer()
-                                }
-                            }.padding()
-//                        }
+                        VStack {
+                            HStack{
+                                Text("\(task.title)")
+                                Spacer()
+                                
+                            }
+                            HStack{
+                                Text("\(task.dueDate.formatted())")
+                                Spacer()
+                            }
+                        }.padding()
+                        
                         
                     }
-//                }
+                    
+                }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: ArchivedListView()){
+                            Label("Archive", systemImage: "archivebox.circle.fill")
+                        }
+                    }
+                    ToolbarItem {
+                        NavigationLink(destination: AddView()){
+                            Label("Add", systemImage: "plus.circle.fill")
+                        }
+                    }
+                }
             }.navigationTitle("Todo")
         }
     }
 }
+
+private let itemFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    formatter.timeStyle = .medium
+    return formatter
+}()
 
 //struct TodoListView_Previews: PreviewProvider {
 //    static var previews: some View {

@@ -33,4 +33,8 @@ class TodoListViewController{
     func archiveTask(){
         
     }
+    
+    func unArchiveTask(){
+        
+    }
 }

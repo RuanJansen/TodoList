@@ -15,21 +15,23 @@ struct ArchivedListView: View {
             List{
                 ForEach(viewController.tasks, id: \.title){ task in
                     if task.isArchived{
-                        VStack {
-                            HStack{
-                                Text("\(task.title)")
-                                Spacer()
+                        HStack {
+                          
+                            Text("\(task.title)")
+                            Spacer()
+                            Button{
+                                viewController.unArchiveTask()
+                            }label: {
+                                Label("Unarchive", systemImage: "archivebox")
+                            }
                                 
-                            }
-                            HStack{
-                                Text("\(task.dueDate.formatted())")
-                                Spacer()
-                            }
+                            
+                            
                         }.padding()
                     }
                     
                 }
-            }.navigationTitle("Todo")
+            }.navigationTitle("Archived")
         }
     }
 }

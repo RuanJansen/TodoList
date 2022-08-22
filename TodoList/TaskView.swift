@@ -46,7 +46,7 @@ struct TaskView: View {
                         ZStack {
                             Capsule()
                                 .frame(width: 130, height: 50)
-                                .foregroundColor(.green)
+                                .foregroundColor(.blue)
                             Button("Archive") {
                                 viewController.archiveTask()
                             }.foregroundColor(.white)
