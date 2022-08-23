@@ -13,18 +13,25 @@ struct ArchivedListView: View {
     var body: some View {
         NavigationView {
             List{
-                ForEach(viewController.tasks, id: \.title){ task in
-                    if task.isArchived{
-                        HStack {
-                            Text("\(task.title)")
-                            Spacer()
-                            Button{
-                                viewController.unArchiveTask()
-                            }label: {
-                                Label("Unarchive", systemImage: "archivebox")
-                            }
-                        }.padding()
+                ForEach(viewController.tasks.filter {$0.isArchived}){ task in
+                    HStack {
+                        Text("\(task.title)")
                     }
+                    .padding()
+                    .swipeActions(edge: .leading){
+                        Button(role: .destructive){
+                            //delete
+                        }label: {
+                            Label("Delete", systemImage: "trash.fill")
+                        }
+                    }
+                    .swipeActions(edge: .trailing){
+                        Button{
+                            //unarchive
+                        }label: {
+                            Label("Unarchive", systemImage: "archivebox.fill")
+                        }
+                    }.tint(.blue)
                     
                 }
             }.navigationTitle("Archived")

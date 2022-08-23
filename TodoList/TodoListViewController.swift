@@ -20,23 +20,27 @@ class TodoListViewController{
         tasks.append(Tasks(id: tasks.count + 1, title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: isDone, isArchived: isArchived))
     }
     
-    func updateTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
+    func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
         tasks.append(Tasks(id: tasks.count + 1,title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: isDone, isArchived: isArchived))
     }
     
-    func removeTask(task: Tasks){
+    func removeTask(indexSet: IndexSet){
+        tasks.remove(atOffsets: indexSet)
+    }
+    
+    func doneTask(indexSet: IndexSet){
         
     }
     
-    func doneTask(){
+    func archiveTask(indexSet: IndexSet){
         
     }
     
-    func archiveTask(){
+    func unArchiveTask(indexSet: IndexSet){
         
     }
     
-    func unArchiveTask(){
-        
+    func moveTask(indices: IndexSet, newOffset: Int){
+        tasks.move(fromOffsets: indices, toOffset: newOffset)
     }
 }
