@@ -20,6 +20,8 @@
 		1A72C45C28B3689900D3D122 /* TaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C45B28B3689900D3D122 /* TaskView.swift */; };
 		1A72C45E28B36A7A00D3D122 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C45D28B36A7A00D3D122 /* AddTaskView.swift */; };
 		1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C46128B3830D00D3D122 /* ArchivedListView.swift */; };
+		1ADD631228B4D85600EC55EE /* MyTasks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD631028B4D85600EC55EE /* MyTasks.xcdatamodeld */; };
+		1ADD631428B4D92300EC55EE /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD631328B4D92300EC55EE /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		1A72C45B28B3689900D3D122 /* TaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskView.swift; sourceTree = "<group>"; };
 		1A72C45D28B36A7A00D3D122 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		1A72C46128B3830D00D3D122 /* ArchivedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedListView.swift; sourceTree = "<group>"; };
+		1ADD631128B4D85600EC55EE /* MyTasks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyTasks.xcdatamodel; sourceTree = "<group>"; };
+		1ADD631328B4D92300EC55EE /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,7 +119,9 @@
 				1A72C45928B363BB00D3D122 /* TodoListViewController.swift */,
 				1A72C45B28B3689900D3D122 /* TaskView.swift */,
 				1A72C45D28B36A7A00D3D122 /* AddTaskView.swift */,
+				1ADD631028B4D85600EC55EE /* MyTasks.xcdatamodeld */,
 				1A72C46128B3830D00D3D122 /* ArchivedListView.swift */,
+				1ADD631328B4D92300EC55EE /* DataController.swift */,
 			);
 			path = TodoList;
 			sourceTree = "<group>";
@@ -279,6 +285,8 @@
 				1A72C45E28B36A7A00D3D122 /* AddTaskView.swift in Sources */,
 				1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */,
 				1A72C45828B3630700D3D122 /* Tasks.swift in Sources */,
+				1ADD631228B4D85600EC55EE /* MyTasks.xcdatamodeld in Sources */,
+				1ADD631428B4D92300EC55EE /* DataController.swift in Sources */,
 				1A72C42A28B362A000D3D122 /* TodoListApp.swift in Sources */,
 				1A72C45628B362F200D3D122 /* TodoListView.swift in Sources */,
 				1A72C45C28B3689900D3D122 /* TaskView.swift in Sources */,
@@ -601,6 +609,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1ADD631028B4D85600EC55EE /* MyTasks.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1ADD631128B4D85600EC55EE /* MyTasks.xcdatamodel */,
+			);
+			currentVersion = 1ADD631128B4D85600EC55EE /* MyTasks.xcdatamodel */;
+			path = MyTasks.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1A72C41E28B362A000D3D122 /* Project object */;
 }

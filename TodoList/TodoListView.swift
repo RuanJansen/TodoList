@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct TodoListView: View {
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
+    
     let viewController = TodoListViewController()
     @State var taskItem: Tasks
-    
+    @State var showAddTask = false
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM"
@@ -22,18 +25,18 @@ struct TodoListView: View {
         NavigationView {
             VStack {
                 List{
-                    ForEach(viewController.tasks.filter {!$0.isArchived}){ task in
+                    ForEach(tasks.filter {!$0.isArchived}){ task in
                         var taskItem = task
                         HStack {
                             NavigationLink(destination: TaskView(task: $taskItem)){
-                                Text("\(task.title)")
+                                Text("\(task.title ?? "Unknown")")
                                 Spacer()
-                                Text("\(task.dueDate, formatter: Self.dateFormatter)")
+                                Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
                             }
                         }
                         .swipeActions(edge: .trailing){
                             Button{
-//                                viewController.archiveTask()
+                                archiveTask(task: task)
                             } label: {
                                 Label("Archive", systemImage: "archivebox")
                                     
@@ -41,17 +44,20 @@ struct TodoListView: View {
                         }
                         .swipeActions(edge: .leading){
                             Button{
-//                                viewController.doneTask()
+                                doneTask(task: task)
                             } label: {
                                 Label("Done", systemImage: "checkmark")
                             }.tint(.blue)
                         }
                                                
                     }
-                    .onDelete(perform: viewController.removeTask)
+//                    .onDelete(perform: viewController.removeTask)
                     .onMove(perform: { indices, newOffset in
                         viewController.moveTask(indices: indices, newOffset: newOffset)
                     })
+                }
+                .sheet(isPresented: $showAddTask){
+                    AddTaskView()
                 }
                 .toolbar {
                     ToolbarItem(placement: .navigationBarLeading){
@@ -64,14 +70,58 @@ struct TodoListView: View {
                         }
                     }
                     ToolbarItem {
-                        NavigationLink(destination: AddTaskView()){
+                        Button{
+                            showAddTask = true
+                        }label: {
                             Label("Add", systemImage: "plus")
                                 .font(.headline)
                         }
+                        
                     }
                 }
+                
+                
+                
             }.navigationTitle("Todo")
         }
+    }
+    
+    func populateMocTasks(){
+        let task = Task(context: moc)
+        task.id = UUID()
+        task.title = "Do Dishes"
+        task.taskDescription = "I need to wash last night's dishes."
+        task.entryDate = Date()
+        task.dueDate = Date()
+        task.isDone = false
+        task.isArchived = false
+        
+    }
+    
+    func doneTask(task: Task){
+        task.isDone = true
+        try? moc.save()
+    }
+    
+    func archiveTask(task: Task){
+        task.isArchived = true
+        try? moc.save()
+    }
+    
+    
+    
+    
+    
+    func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
+        let task = Task(context: moc)
+        task.id = UUID()
+        task.title = title
+        task.taskDescription = description
+        task.entryDate = entryDate
+        task.dueDate = dueDate
+        task.isDone = isDone
+        task.isArchived = isArchived
+        try? moc.save()
     }
 }
 
@@ -82,3 +132,5 @@ struct TodoListView: View {
 //        TodoListView()
 //    }
 //}
+
+

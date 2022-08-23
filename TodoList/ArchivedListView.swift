@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ArchivedListView: View {
     let viewController = TodoListViewController()
-    
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
     var body: some View {
         NavigationView {
             List{
-                ForEach(viewController.tasks.filter {$0.isArchived}){ task in
+                ForEach(tasks.filter {$0.isArchived}){ task in
                     HStack {
-                        Text("\(task.title)")
+                        Text("\(task.title ?? "Unknown")")
                     }
                     .padding()
                     .swipeActions(edge: .leading){
@@ -27,7 +28,7 @@ struct ArchivedListView: View {
                     }
                     .swipeActions(edge: .trailing){
                         Button{
-                            //unarchive
+                            unArchiveTask(task: task)
                         }label: {
                             Label("Unarchive", systemImage: "archivebox.fill")
                         }
@@ -36,6 +37,11 @@ struct ArchivedListView: View {
                 }
             }.navigationTitle("Archived")
         }
+    }
+    
+    func unArchiveTask(task: Task){
+        task.isArchived = false
+        try? moc.save()
     }
 }
 

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AddTaskView: View {
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
+    @Environment (\.presentationMode) var presentationMode
     var viewController = TodoListViewController()
     @State var title: String = ""
     @State var description: String = ""
@@ -21,7 +24,6 @@ struct AddTaskView: View {
                         Text("Title")
                         Spacer()
                         TextField("", text: $title)
-                        
                     }.padding(.top)
                      Divider()
                     HStack{
@@ -43,14 +45,31 @@ struct AddTaskView: View {
                          Capsule()
                              .frame(width: 130, height: 50)
                              .foregroundColor(.blue)
-                         Button("Add task") {
-                             viewController.addTask(title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: false, isArchived: false)
+                         Button{
+                             addTask(title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: false, isArchived: false)
+                             presentationMode.wrappedValue.dismiss()
+                         }label:{
+                             Text("Add task")
                          }.foregroundColor(.white)
                      }
                  }.padding(.bottom)
              }.navigationTitle("Add Task")
          }
     }
+    
+    func addTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
+        let task = Task(context: moc)
+        task.id = UUID()
+        task.title = title
+        task.taskDescription = description
+        task.entryDate = entryDate
+        task.dueDate = dueDate
+        task.isDone = isDone
+        task.isArchived = isArchived
+        
+        try? moc.save()
+    }
+    
 }
 
 struct AddTaskView_Previews: PreviewProvider {
