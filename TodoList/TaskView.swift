@@ -61,7 +61,6 @@ struct TaskView: View {
                             Label("Delete", systemImage: "trash.circle.fill")
                         }
                     }
-                    
                 }
             
         }

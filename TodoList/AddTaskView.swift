@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AddView: View {
+struct AddTaskView: View {
     var viewController = TodoListViewController()
     @State var title: String = ""
     @State var description: String = ""
@@ -53,8 +53,8 @@ struct AddView: View {
     }
 }
 
-struct AddView_Previews: PreviewProvider {
+struct AddTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        AddView()
+        AddTaskView()
     }
 }

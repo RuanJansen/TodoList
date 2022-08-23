@@ -13,20 +13,34 @@ struct TodoListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                List(viewController.tasks.filter {!$0.isArchived}){ task in
-                    var taskItem = task
-                    NavigationLink(destination: TaskView(task: $taskItem)){
-                        VStack {
-                            HStack{
+                List{
+                    ForEach(viewController.tasks.filter {!$0.isArchived}){ task in
+                        var taskItem = task
+                                                
+                        HStack {
+                            NavigationLink(destination: TaskView(task: $taskItem)){
                                 Text("\(task.title)")
                                 Spacer()
-                            }
-                            HStack{
                                 Text("\(task.dueDate.formatted())")
-                                Spacer()
                             }
-                        }  
+                        }
+                        .swipeActions(edge: .trailing){
+                            Button{
+                                viewController.archiveTask()
+                            } label: {
+                                Label("Archive", systemImage: "archivebox.fill")
+                            }.tint(.blue)
+                        }
+                        .swipeActions(edge: .leading){
+                            Button{
+                                viewController.doneTask()
+                            } label: {
+                                Label("Done", systemImage: "checkmark")
+                            }.tint(.blue)
+                        }
+                                               
                     }
+                    
                     
                 }
                 .toolbar {
@@ -36,7 +50,7 @@ struct TodoListView: View {
                         }
                     }
                     ToolbarItem {
-                        NavigationLink(destination: AddView()){
+                        NavigationLink(destination: AddTaskView()){
                             Label("Add", systemImage: "plus.circle.fill")
                         }
                     }

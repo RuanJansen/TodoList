@@ -16,7 +16,6 @@ struct ArchivedListView: View {
                 ForEach(viewController.tasks, id: \.title){ task in
                     if task.isArchived{
                         HStack {
-                          
                             Text("\(task.title)")
                             Spacer()
                             Button{
