@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ArchivedListView: View {
-    let viewController = TodoListViewController()
+    let viewController = Provider()
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     var body: some View {

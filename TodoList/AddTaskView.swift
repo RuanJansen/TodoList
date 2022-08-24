@@ -11,7 +11,7 @@ struct AddTaskView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     @Environment (\.presentationMode) var presentationMode
-    var viewController = TodoListViewController()
+    var viewController = Provider()
     @State var title: String = ""
     @State var description: String = ""
     @State var dueDate = Date()
