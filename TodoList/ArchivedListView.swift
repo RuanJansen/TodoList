@@ -14,28 +14,64 @@ struct ArchivedListView: View {
     var body: some View {
         NavigationView {
             List{
-                ForEach(tasks.filter {$0.isArchived}){ task in
-                    HStack {
-                        Text("\(task.title ?? "Unknown")")
-                    }
-                    .padding()
-                    .swipeActions(edge: .leading){
-                        Button(role: .destructive){
-                            //delete
-                        }label: {
-                            Label("Delete", systemImage: "trash.fill")
+                Section {
+                    ForEach(tasks.filter {$0.isArchived && $0.isDone}){ task in
+                        HStack {
+                            Text("\(task.title ?? "Unknown")")
+                                .strikethrough()
                         }
-                    }
-                    .swipeActions(edge: .trailing){
-                        Button{
-                            unArchiveTask(task: task)
-                        }label: {
-                            Label("Unarchive", systemImage: "archivebox.fill")
+                        .padding()
+                        .swipeActions(edge: .leading){
+                            Button(role: .destructive){
+                                //delete
+                            }label: {
+                                Label("Delete", systemImage: "trash.fill")
+                            }.tint(.red)
                         }
-                    }.tint(.blue)
-                    
+                        .swipeActions(edge: .trailing){
+                            Button{
+                                unArchiveTask(task: task)
+                            }label: {
+                                Label("Unarchive", systemImage: "archivebox.fill")
+                            }
+                        }.tint(.blue)
+                        
+                    }.onDelete(perform:
+                        viewController.removeTask
+                )
+                }header: {
+                    Text("Done")
+                }
+                
+                Section {
+                    ForEach(tasks.filter {$0.isArchived && !$0.isDone}){ task in
+                        HStack {
+                            Text("\(task.title ?? "Unknown")")
+                        }
+                        .padding()
+                        .swipeActions(edge: .leading){
+                            Button(role: .destructive){
+                                //delete
+                            }label: {
+                                Label("Delete", systemImage: "trash.fill")
+                            }.tint(.red)
+                        }
+                        .swipeActions(edge: .trailing){
+                            Button{
+                                unArchiveTask(task: task)
+                            }label: {
+                                Label("Unarchive", systemImage: "archivebox.fill")
+                            }
+                        }.tint(.blue)
+                        
+                    }.onDelete(perform:
+                        viewController.removeTask
+                )
+                }header: {
+                    Text("Active")
                 }
             }.navigationTitle("Archived")
+                
         }
     }
     
@@ -43,6 +79,8 @@ struct ArchivedListView: View {
         task.isArchived = false
         try? moc.save()
     }
+    
+    
 }
 
 struct ArchivedListView_Previews: PreviewProvider {

@@ -19,26 +19,28 @@ struct AddTaskView: View {
      var body: some View {
          NavigationView {
              ZStack {
-                 VStack {
-                    HStack{
-                        Text("Title")
+                 Section {
+                     VStack {
+                        HStack{
+                            Text("Title")
+                            Spacer()
+                            TextField("", text: $title)
+                        }.padding(.top)
+                         Divider()
+                        HStack{
+                            Text("Description")
+                            Spacer()
+                            TextField("", text: $description).background()
+                            
+                        }.padding(.top)
+                         Divider()
+                        HStack{
+                            DatePicker(selection: $dueDate, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
+                        }.padding(.top)
                         Spacer()
-                        TextField("", text: $title)
-                    }.padding(.top)
-                     Divider()
-                    HStack{
-                        Text("Description")
                         Spacer()
-                        TextField("", text: $description).background()
-                        
-                    }.padding(.top)
-                     Divider()
-                    HStack{
-                        DatePicker(selection: /*@START_MENU_TOKEN@*/.constant(Date())/*@END_MENU_TOKEN@*/, label: { /*@START_MENU_TOKEN@*/Text("Date")/*@END_MENU_TOKEN@*/ })
-                    }.padding(.top)
-                    Spacer()
-                    Spacer()
-                 }.padding()
+                     }.padding()
+                 }
                  VStack{
                      Spacer()
                      ZStack {

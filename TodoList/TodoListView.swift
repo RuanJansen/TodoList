@@ -12,7 +12,8 @@ struct TodoListView: View {
     @Environment(\.managedObjectContext) var moc
     
     let viewController = TodoListViewController()
-    @State var taskItem: Tasks
+//    var taskItem: Task
+//    @EnvObj var taskItem: Task?
     @State var showAddTask = false
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -25,36 +26,83 @@ struct TodoListView: View {
         NavigationView {
             VStack {
                 List{
-                    ForEach(tasks.filter {!$0.isArchived}){ task in
-                        var taskItem = task
-                        HStack {
-                            NavigationLink(destination: TaskView(task: $taskItem)){
-                                Text("\(task.title ?? "Unknown")")
-                                Spacer()
-                                Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
-                            }
-                        }
-                        .swipeActions(edge: .trailing){
-                            Button{
-                                archiveTask(task: task)
-                            } label: {
-                                Label("Archive", systemImage: "archivebox")
+                    Section {
+                        ForEach(tasks.filter {!$0.isArchived && $0.isDone}){ task in
+                            var taskItem = task
+                            HStack {
+                                NavigationLink(destination: TaskView(taskItem: task)){
                                     
-                            }.tint(.blue)
+                                        Text("\(task.title ?? "Unknown")")
+                                            .strikethrough()
+                                    
+                                    
+                                    Spacer()
+                                    Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
+                                }
+                            }
+                            .swipeActions(edge: .trailing){
+                                Button{
+                                    archiveTask(task: task)
+                                } label: {
+                                    Label("Archive", systemImage: "archivebox")
+                                        
+                                }.tint(.blue)
+                            }
+                            .swipeActions(edge: .leading){
+                                Button{
+                                    doneTask(task: task)
+                                } label: {
+                                    Label("Done", systemImage: "checkmark")
+                                }.tint(.blue)
+                            }
+                                                   
                         }
-                        .swipeActions(edge: .leading){
-                            Button{
-                                doneTask(task: task)
-                            } label: {
-                                Label("Done", systemImage: "checkmark")
-                            }.tint(.blue)
-                        }
-                                               
-                    }
-//                    .onDelete(perform: viewController.removeTask)
-                    .onMove(perform: { indices, newOffset in
-                        viewController.moveTask(indices: indices, newOffset: newOffset)
+    //                    .onDelete(perform: viewController.removeTask)
+                        .onMove(perform: { indices, newOffset in
+                            viewController.moveTask(indices: indices, newOffset: newOffset)
                     })
+                    }header: {
+                        Text("Done")
+                    }
+                    
+                    Section {
+                        ForEach(tasks.filter {!$0.isArchived && !$0.isDone}){ task in
+                            var taskItem = task
+                            HStack {
+                                NavigationLink(destination: TaskView(taskItem: task)){
+                                    
+                                        Text("\(task.title ?? "Unknown")")
+                                    
+                                    
+                                    Spacer()
+                                    Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
+                                }
+                            }
+                            .swipeActions(edge: .trailing){
+                                Button{
+                                    archiveTask(task: task)
+                                } label: {
+                                    Label("Archive", systemImage: "archivebox")
+                                        
+                                }.tint(.blue)
+                            }
+                            .swipeActions(edge: .leading){
+                                Button{
+                                    doneTask(task: task)
+                                } label: {
+                                    Label("Done", systemImage: "checkmark")
+                                }.tint(.blue)
+                            }
+                                                   
+                        }
+    //                    .onDelete(perform: viewController.removeTask)
+                        .onMove(perform: { indices, newOffset in
+                            viewController.moveTask(indices: indices, newOffset: newOffset)
+                    })
+                    }header: {
+                        Text("Active")
+                    }
+                    
                 }
                 .sheet(isPresented: $showAddTask){
                     AddTaskView()
@@ -66,7 +114,7 @@ struct TodoListView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: ArchivedListView()){
                             Label("Archive", systemImage: "archivebox")
-                                .font(.headline)
+//                                .font(.headline)
                         }
                     }
                     ToolbarItem {
@@ -74,7 +122,7 @@ struct TodoListView: View {
                             showAddTask = true
                         }label: {
                             Label("Add", systemImage: "plus")
-                                .font(.headline)
+//                                .font(.headline)
                         }
                         
                     }
@@ -82,7 +130,7 @@ struct TodoListView: View {
                 
                 
                 
-            }.navigationTitle("Todo")
+            }.navigationTitle("To Do")
         }
     }
     
@@ -99,7 +147,7 @@ struct TodoListView: View {
     }
     
     func doneTask(task: Task){
-        task.isDone = true
+        task.isDone.toggle()
         try? moc.save()
     }
     
