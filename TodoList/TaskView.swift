@@ -8,14 +8,18 @@
 import SwiftUI
 
 struct TaskView: View {
-    var taskItem: Task
-    
+    @State var taskItem: Task
+    @State var editMode: Bool = false
     //published var parsing
     
-//    @State var title = taskItem?.title ?? "Unknown Task"
-//    @State var description = taskItem?.taskDescription ?? "No description"
-//    @State var entryDate = taskItem?.entryDate ?? Date()
-//    @State var dueDate = taskItem?.dueDate ?? Date()
+    @State var title: String
+//    = taskItem?.title ?? "Unknown Task"
+    @State var description: String
+//    = taskItem?.taskDescription ?? "No description"
+    @State var entryDate: Date
+//    = taskItem?.entryDate ?? Date()
+    @State var dueDate: Date
+//    taskItem?.dueDate ?? Date()
     //    var viewController = TodoListViewController()
     
     static let dateFormatter: DateFormatter = {
@@ -60,11 +64,23 @@ struct TaskView: View {
             }
         }
         .navigationTitle(taskItem.title ?? "Unknown task").padding()
+        .sheet(isPresented: $editMode){
+            EditTaskView(taskItem: $taskItem, title: $title, description: $description, dueDate: $dueDate, entryDate: $entryDate)
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing){
+                Button{
+                    editMode.toggle()
+                }label: {
+                    Label("Edit", systemImage: "pencil")
+                }
+            }
+        }
     }
 }
 
 //struct InfoView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TaskView()
+//        TaskView(taskItem: Task())
 //    }
 //}

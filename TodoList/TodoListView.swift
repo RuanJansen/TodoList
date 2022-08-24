@@ -11,7 +11,7 @@ struct TodoListView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
-    let viewController = TodoListViewController()
+    let provider = Provider()
 //    var taskItem: Task
 //    @EnvObj var taskItem: Task?
     @State var showAddTask = false
@@ -30,12 +30,9 @@ struct TodoListView: View {
                         ForEach(tasks.filter {!$0.isArchived && $0.isDone}){ task in
                             var taskItem = task
                             HStack {
-                                NavigationLink(destination: TaskView(taskItem: task)){
-                                    
+                                NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
                                         Text("\(task.title ?? "Unknown")")
                                             .strikethrough()
-                                    
-                                    
                                     Spacer()
                                     Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
                                 }
@@ -57,9 +54,9 @@ struct TodoListView: View {
                             }
                                                    
                         }
-    //                    .onDelete(perform: viewController.removeTask)
+    //                    .onDelete(perform: provider.removeTask)
                         .onMove(perform: { indices, newOffset in
-                            viewController.moveTask(indices: indices, newOffset: newOffset)
+                            provider.moveTask(indices: indices, newOffset: newOffset)
                     })
                     }header: {
                         Text("Done")
@@ -69,7 +66,7 @@ struct TodoListView: View {
                         ForEach(tasks.filter {!$0.isArchived && !$0.isDone}){ task in
                             var taskItem = task
                             HStack {
-                                NavigationLink(destination: TaskView(taskItem: task)){
+                                NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
                                     
                                         Text("\(task.title ?? "Unknown")")
                                     
@@ -95,9 +92,9 @@ struct TodoListView: View {
                             }
                                                    
                         }
-    //                    .onDelete(perform: viewController.removeTask)
+    //                    .onDelete(perform: provider.removeTask)
                         .onMove(perform: { indices, newOffset in
-                            viewController.moveTask(indices: indices, newOffset: newOffset)
+                            provider.moveTask(indices: indices, newOffset: newOffset)
                     })
                     }header: {
                         Text("Active")

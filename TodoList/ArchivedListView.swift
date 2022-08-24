@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ArchivedListView: View {
-    let viewController = TodoListViewController()
+    let provider = Provider()
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     var body: some View {
@@ -37,8 +37,8 @@ struct ArchivedListView: View {
                         }.tint(.blue)
                         
                     }.onDelete(perform:
-                        viewController.removeTask
-                )
+                                provider.removeTask
+                    )
                 }header: {
                     Text("Done")
                 }
@@ -65,13 +65,13 @@ struct ArchivedListView: View {
                         }.tint(.blue)
                         
                     }.onDelete(perform:
-                        viewController.removeTask
-                )
+                                provider.removeTask
+                    )
                 }header: {
                     Text("Active")
                 }
             }.navigationTitle("Archived")
-                
+            
         }
     }
     
