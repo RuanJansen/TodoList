@@ -24,6 +24,10 @@ class Provider: TaskProviding {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
+    init() {
+//        moc.fetch(<#T##request: NSFetchRequest<NSFetchRequestResult>##NSFetchRequest<NSFetchRequestResult>#>)
+    }
+    
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM yyyy"
