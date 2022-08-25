@@ -6,11 +6,18 @@
 //
 
 import Foundation
+import SwiftUI
 
 class Provider {
-    
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
+
     func removeTask(indexSet: IndexSet){
 //        tasks.remove(atOffsets: indexSet)
+            for index in indexSet {
+                let tasks = tasks[index]
+                moc.delete(tasks)
+            }
     }
 
     

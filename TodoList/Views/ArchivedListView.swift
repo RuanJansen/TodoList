@@ -9,9 +9,9 @@ import SwiftUI
 
 struct ArchivedListView: View {
     let provider = Provider()
-//    @State var taskItem: Task
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
+    @State var showAlert: Bool = false
     var body: some View {
         NavigationView {
             List{
@@ -51,12 +51,21 @@ struct ArchivedListView: View {
                         }
                         .padding()
                         .swipeActions(edge: .leading){
-                            Button(role: .destructive){
+                            Button(){
                                 //delete
-//                                taskItem = task
+                                showAlert = true
                             }label: {
                                 Label("Delete", systemImage: "trash.fill")
                             }.tint(.red)
+                                .alert(isPresented: $showAlert){
+                                    Alert(
+                                        title: Text("Are you sure you want to delete this?"),
+                                        message: Text("There is no undo"),
+                                        primaryButton: .destructive(Text("Delete")) {
+                                            print("Deleting...")
+                                        },
+                                        secondaryButton: .cancel())
+                                }
                         }
                         .swipeActions(edge: .trailing){
                             Button{
@@ -83,7 +92,7 @@ struct ArchivedListView: View {
     }
     
     func removeTask(indexSet: IndexSet){
-//        $taskItem.remove(atOffsets: indexSet)
+        //        $taskItem.remove(atOffsets: indexSet)
     }
     
     
