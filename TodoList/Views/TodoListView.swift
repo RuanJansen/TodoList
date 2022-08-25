@@ -11,6 +11,8 @@ struct TodoListView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     let provider = Provider()
+    @State var filterDone = true
+    @State var filterActive = false
     @State var showAddTask = false
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -23,17 +25,15 @@ struct TodoListView: View {
             VStack {
                 List{
                     Section {
-                        DoneList()
+                        TaskList(filterDone: $filterDone)
                     }header: {
                         Text("Done")
                     }
-                    
                     Section {
-                        ActiveList()
+                        TaskList(filterDone: $filterActive)
                     }header: {
                         Text("Active")
                     }
-                    
                 }
                 .sheet(isPresented: $showAddTask){
                     AddTaskView()
@@ -45,7 +45,6 @@ struct TodoListView: View {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: ArchivedListView()){
                             Label("Archive", systemImage: "archivebox")
-//                                .font(.headline)
                         }
                     }
                     ToolbarItem {
@@ -53,138 +52,32 @@ struct TodoListView: View {
                             showAddTask = true
                         }label: {
                             Label("Add", systemImage: "plus")
-//                                .font(.headline)
                         }
                         
                     }
                 }
-                
-                
-                
             }.navigationTitle("To Do")
         }
     }
-    
-    func populateMocTasks(){
-        let task = Task(context: moc)
-        task.id = UUID()
-        task.title = "Do Dishes"
-        task.taskDescription = "I need to wash last night's dishes."
-        task.entryDate = Date()
-        task.dueDate = Date()
-        task.isDone = false
-        task.isArchived = false
-        
-    }
-    
-        
-    
-    
-    
-    
-    func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
-        let task = Task(context: moc)
-        task.id = UUID()
-        task.title = title
-        task.taskDescription = description
-        task.entryDate = entryDate
-        task.dueDate = dueDate
-        task.isDone = isDone
-        task.isArchived = isArchived
-        try? moc.save()
-    }
 }
 
-
-
-//struct TodoListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TodoListView()
-//    }
-//}
-
-
-
-struct ActiveList: View {
-    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
-    @Environment(\.managedObjectContext) var moc
+struct TaskList: View {
     let provider = Provider()
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM yyyy"
-        return formatter
-    }()
+    @Binding var filterDone: Bool
     var body: some View {
-        ForEach(tasks.filter {!$0.isArchived && !$0.isDone}){ task in
-            var taskItem = task
-            HStack {
-                NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
-                    
-                    Text("\(task.title ?? "Unknown")")
-                    
-                    
-                    Spacer()
-                    Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
-                }
-            }
-            .swipeActions(edge: .trailing){
-                Button{
-                    archiveTask(task: task)
-                } label: {
-                    Label("Archive", systemImage: "archivebox")
-                    
-                }.tint(.blue)
-            }
-            .swipeActions(edge: .leading){
-                Button{
-                    doneTask(task: task)
-                } label: {
-                    Label("Done", systemImage: "checkmark")
-                }.tint(.blue)
-            }
-            
-        }
-        //                        .onDelete(perform: provider.removeTask)
-        .onMove(perform: { indices, newOffset in
-            provider.moveTask(indices: indices, newOffset: newOffset)
-        })
-    }
-    
-    func doneTask(task: Task){
-        task.isDone.toggle()
-        try? moc.save()
-    }
-    
-    func archiveTask(task: Task){
-        task.isArchived = true
-        try? moc.save()
-    }
-
-}
-
-struct DoneList: View {
-    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
-    @Environment(\.managedObjectContext) var moc
-    let provider = Provider()
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM yyyy"
-        return formatter
-    }()
-    var body: some View {
-        ForEach(tasks.filter {!$0.isArchived && $0.isDone}){ task in
+        ForEach(provider.tasks.filter {!$0.isArchived && $0.isDone == filterDone}){ task in
             var taskItem = task
             HStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
                     Text("\(task.title ?? "Unknown")")
                         .strikethrough()
                     Spacer()
-                    Text("\(task.dueDate ?? Date(), formatter: Self.dateFormatter )")
+                    Text("\(task.dueDate ?? Date(), formatter: Provider.dateFormatter )")
                 }
             }
             .swipeActions(edge: .trailing){
                 Button{
-                    archiveTask(task: task)
+                    provider.archiveTasks(task: task)
                 } label: {
                     Label("Archive", systemImage: "archivebox")
                     
@@ -192,7 +85,7 @@ struct DoneList: View {
             }
             .swipeActions(edge: .leading){
                 Button{
-                    doneTask(task: task)
+                    provider.doneTasks(task: task)
                 } label: {
                     Label("Done", systemImage: "checkmark")
                 }.tint(.blue)
@@ -201,19 +94,13 @@ struct DoneList: View {
         }
         //                    .onDelete(perform: provider.removeTask)
         .onMove(perform: { indices, newOffset in
-            provider.moveTask(indices: indices, newOffset: newOffset)
+            provider.moveTask(indexSet: indices, newOffset: newOffset)
         })
-        
-
-    }
-    
-    func doneTask(task: Task){
-        task.isDone.toggle()
-        try? moc.save()
-    }
-    
-    func archiveTask(task: Task){
-        task.isArchived = true
-        try? moc.save()
     }
 }
+
+//struct TodoListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TodoListView()
+//    }
+//}
