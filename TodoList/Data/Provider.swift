@@ -17,6 +17,7 @@ protocol TaskProviding {
     func removeTask(indexSet: IndexSet)
     func editTask(taskItem: Task, title: String, description: String, dueDate: Date)
     func unArchiveTask(task: Task)
+    func addTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool)
 }
 
 class Provider: TaskProviding {
@@ -37,7 +38,17 @@ class Provider: TaskProviding {
         return tasks.reversed()
     }
     
-    
+    func addTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
+        let task = Task(context: moc)
+        task.id = UUID()
+        task.title = title
+        task.taskDescription = description
+        task.entryDate = entryDate
+        task.dueDate = dueDate
+        task.isDone = isDone
+        task.isArchived = isArchived
+        try? moc.save()
+    }
     
     func doneTasks(task: Task) {
         task.isDone.toggle()
@@ -48,11 +59,7 @@ class Provider: TaskProviding {
         task.isArchived = true
         try? moc.save()
     }
-    
-//    func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool) {
-//        <#code#>
-//    }
-//
+
     func editTask(taskItem: Task, title: String, description: String, dueDate: Date){
         taskItem.title = title
         taskItem.taskDescription = description

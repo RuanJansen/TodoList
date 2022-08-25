@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct AddTaskView: View {
-    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
-    @Environment(\.managedObjectContext) var moc
     @Environment (\.presentationMode) var presentationMode
     var provider = Provider()
     @State var title: String = ""
@@ -17,13 +15,11 @@ struct AddTaskView: View {
     @State var dueDate = Date()
     @State var entryDate = Date()
     var body: some View {
-//        NavigationView {
             ZStack {
                 Form {
                     Section(header: Text("Title")) {
                         TextField("", text: $title)
                     }
-                    
                     Section(header: Text("Description")){
                         TextField("", text: $description)
                     }
@@ -38,7 +34,7 @@ struct AddTaskView: View {
                             .frame(width: 130, height: 50)
                             .foregroundColor(.blue)
                         Button{
-                            addTask(title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: false, isArchived: false)
+                            provider.addTask(title: title, description: description, entryDate: entryDate, dueDate: dueDate, isDone: false, isArchived: false)
                             presentationMode.wrappedValue.dismiss()
                         }label:{
                             Text("Add task")
@@ -46,22 +42,7 @@ struct AddTaskView: View {
                     }
                 }.padding(.bottom)
             }.navigationTitle("Add Task")
-//        }
     }
-    
-    func addTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
-        let task = Task(context: moc)
-        task.id = UUID()
-        task.title = title
-        task.taskDescription = description
-        task.entryDate = entryDate
-        task.dueDate = dueDate
-        task.isDone = isDone
-        task.isArchived = isArchived
-        
-        try? moc.save()
-    }
-    
 }
 
 struct AddTaskView_Previews: PreviewProvider {
