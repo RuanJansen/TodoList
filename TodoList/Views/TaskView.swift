@@ -6,21 +6,15 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct TaskView: View {
     @State var taskItem: Task
     @State var editMode: Bool = false
-    //published var parsing
-    
     @State var title: String
-//    = taskItem?.title ?? "Unknown Task"
     @State var description: String
-//    = taskItem?.taskDescription ?? "No description"
     @State var entryDate: Date
-//    = taskItem?.entryDate ?? Date()
     @State var dueDate: Date
-//    taskItem?.dueDate ?? Date()
-    //    var viewController = TodoListViewController()
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -36,31 +30,40 @@ struct TaskView: View {
     
     var body: some View {
         NavigationView {
-            VStack{
-                HStack{
-                    VStack {
-                        Text("Entry Date")
+            Form {
+                Section(header: Text("Entry Date")){
+                    HStack {
+                        Text("Date")
+                        Spacer()
                         Text(taskItem.entryDate ?? Date(), formatter: Self.dateFormatter)
+                    }
+                    HStack {
+                        Text("Time")
+                        Spacer()
                         Text(taskItem.entryDate ?? Date(), formatter: Self.timeFormatter)
                     }
-                    Spacer()
-                    VStack {
-                        Text("Due Date")
+                }
+                Section(header: Text("Due Date")) {
+                    HStack {
+                        Text("Date")
+                        Spacer()
                         Text(taskItem.dueDate ?? Date(), formatter: Self.dateFormatter)
+                    }
+                    HStack {
+                        Text("Time")
+                        Spacer()
                         Text(taskItem.dueDate ?? Date(), formatter: Self.timeFormatter)
                     }
-                }.padding(.bottom)
-                HStack {
-                    Text("Description")
-                    Spacer()
-                }.padding(.bottom).font(.title2)
-                
-                ScrollView {
-                    Text(taskItem.taskDescription ?? "No description")
-//                    TextEditor(text: $task?.taskDescription ?? "No description")
                 }
-                .frame(height: 200)
+                Section(header: Text("Description")){
+                    Text(taskItem.taskDescription ?? "No description")
+                }
+                
+                Section(header: Text("Location")){
+//                    Map(coordinateRegion: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 18, longitude: 33), latitudinalMeters: -2, longitudinalMeters: -2))
+                }
                 Spacer()
+                
             }
         }
         .navigationTitle(taskItem.title ?? "Unknown task").padding()

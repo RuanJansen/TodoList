@@ -10,15 +10,11 @@ import SwiftUI
 struct TodoListView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
-    
     let provider = Provider()
-//    var taskItem: Task
-//    @EnvObj var taskItem: Task?
     @State var showAddTask = false
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM"
-
+        formatter.dateFormat = "d MMM yyyy"
         return formatter
     }()
     

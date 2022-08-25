@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ArchivedListView: View {
     let provider = Provider()
+//    @State var taskItem: Task
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     var body: some View {
@@ -52,6 +53,7 @@ struct ArchivedListView: View {
                         .swipeActions(edge: .leading){
                             Button(role: .destructive){
                                 //delete
+//                                taskItem = task
                             }label: {
                                 Label("Delete", systemImage: "trash.fill")
                             }.tint(.red)
@@ -78,6 +80,10 @@ struct ArchivedListView: View {
     func unArchiveTask(task: Task){
         task.isArchived = false
         try? moc.save()
+    }
+    
+    func removeTask(indexSet: IndexSet){
+//        $taskItem.remove(atOffsets: indexSet)
     }
     
     
