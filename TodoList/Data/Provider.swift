@@ -12,7 +12,6 @@ protocol TaskProviding {
     func getTasks() -> [Task]
     func doneTasks(task: Task)
     func archiveTasks(task: Task)
-//    func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool)
     func moveTask(indexSet: IndexSet, newOffset: Int)
     func removeTask(indexSet: IndexSet)
     func editTask(taskItem: Task, title: String, description: String, dueDate: Date)
@@ -24,9 +23,9 @@ class Provider: TaskProviding {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
-    init() {
+//    init() {
 //        moc.fetch(<#T##request: NSFetchRequest<NSFetchRequestResult>##NSFetchRequest<NSFetchRequestResult>#>)
-    }
+//    }
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -71,8 +70,6 @@ class Provider: TaskProviding {
         try? moc.save()
     }
     
-    
-
     func removeTask(indexSet: IndexSet){
 //        tasks.remove(atOffsets: indexSet)
             for index in indexSet {
