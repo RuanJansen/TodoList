@@ -8,12 +8,15 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isActive: Bool = false
+    @State var isActive: Bool = true
     @State var size: Double = 0.8
     @State var opacity: Double = 0.5
     var body: some View {
         if isActive {
             TodoListView()
+            
+            
+            
         } else {
             VStack{
                 VStack{
