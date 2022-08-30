@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddTaskView: View {
     @Environment (\.presentationMode) var presentationMode
-    var provider = Provider()
+    var provider: Provider
     @State var title: String = ""
     @State var description: String = ""
     @State var dueDate = Date()
@@ -42,11 +42,12 @@ struct AddTaskView: View {
                     }
                 }.padding(.bottom)
             }.navigationTitle("Add Task")
+        
     }
 }
 
-struct AddTaskView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddTaskView()
-    }
-}
+//struct AddTaskView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddTaskView()
+//    }
+//}

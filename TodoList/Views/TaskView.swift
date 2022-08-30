@@ -75,7 +75,7 @@ struct TaskView: View {
                 Button{
                     editMode.toggle()
                 }label: {
-                    Label("Edit", systemImage: "pencil")
+                    Text("Edit")
                 }
             }
         }
@@ -84,6 +84,6 @@ struct TaskView: View {
 
 //struct InfoView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        TaskView(taskItem: Task())
+//        TaskView(taskItem: <#Task#>, title: <#String#>, description: <#String#>, entryDate: <#Date#>, dueDate: <#Date#>)
 //    }
 //}

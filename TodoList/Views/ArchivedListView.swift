@@ -35,11 +35,17 @@ struct ListTask: View {
     let provider = Provider()
     @State var showAlert: Bool = false
     @Binding var filterDone: Bool
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     var body: some View {
-        ForEach(provider.tasks.filter {$0.isArchived && $0.isDone == filterDone}){ task in
+        ForEach(tasks.filter {$0.isArchived && $0.isDone == filterDone}){ task in
             HStack {
-                Text("\(task.title ?? "Unknown")")
-                    .strikethrough()
+                if task.isDone {
+                    Text("\(task.title ?? "Unknown")")
+                        .strikethrough()
+                } else {
+                    Text("\(task.title ?? "Unknown")")
+                    
+                }
             }
             .padding()
             .swipeActions(edge: .leading){

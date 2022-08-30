@@ -19,9 +19,11 @@ protocol TaskProviding {
     func addTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool)
 }
 
-class Provider: TaskProviding {
-    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+class Provider {
+
     @Environment(\.managedObjectContext) var moc
+//    @Published var pubMOC = moc
+    
     
 //    init() {
 //        moc.fetch(<#T##request: NSFetchRequest<NSFetchRequestResult>##NSFetchRequest<NSFetchRequestResult>#>)
@@ -34,12 +36,12 @@ class Provider: TaskProviding {
     }()
     
     func moveTask(indexSet: IndexSet, newOffset: Int) {
-        //        tasks.move(fromOffsets: indexSet, toOffset: newOffset)
+//        tasks.move(fromOffsets: indexSet, toOffset: newOffset)
     }
     
-    func getTasks() -> [Task] {
-        return tasks.reversed()
-    }
+//    func getTasks() -> [Task] {
+//        return tasks.reversed()
+//    }
     
     func addTask(title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
         let task = Task(context: moc)
@@ -51,16 +53,19 @@ class Provider: TaskProviding {
         task.isDone = isDone
         task.isArchived = isArchived
         try? moc.save()
+//        currentTasks = tasks.reversed().reversed()
     }
     
     func doneTasks(task: Task) {
         task.isDone.toggle()
         try? moc.save()
+//        currentTasks = tasks.reversed().reversed()
     }
     
     func archiveTasks(task: Task) {
         task.isArchived = true
         try? moc.save()
+//        currentTasks = tasks.reversed().reversed()
     }
 
     func editTask(taskItem: Task, title: String, description: String, dueDate: Date){
@@ -68,18 +73,20 @@ class Provider: TaskProviding {
         taskItem.taskDescription = description
         taskItem.dueDate = dueDate
         try? moc.save()
+//        currentTasks = tasks.reversed().reversed()
     }
     
     func removeTask(indexSet: IndexSet){
 //        tasks.remove(atOffsets: indexSet)
-            for index in indexSet {
-                let tasks = tasks[index]
-                moc.delete(tasks)
-            }
+//            for index in indexSet {
+//                let tasks = tasks[index]
+//                moc.delete(tasks)
+//            }
     }
     
     func unArchiveTask(task: Task){
         task.isArchived = false
         try? moc.save()
+//        currentTasks = tasks.reversed().reversed()
     }
 }

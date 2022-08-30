@@ -53,6 +53,6 @@ struct EditTaskView: View {
 
 //struct EditTaskView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        EditTaskView()
+//        EditTaskView(taskItem: <#Binding<Task>#>, title: <#Binding<String>#>, description: <#Binding<String>#>, dueDate: <#Binding<Date>#>, entryDate: <#Binding<Date>#>)
 //    }
 //}
