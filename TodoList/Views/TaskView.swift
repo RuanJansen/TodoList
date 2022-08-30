@@ -31,18 +31,6 @@ struct TaskView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Entry Date")){
-                    HStack {
-                        Text("Date")
-                        Spacer()
-                        Text(taskItem.entryDate ?? Date(), formatter: Self.dateFormatter)
-                    }
-                    HStack {
-                        Text("Time")
-                        Spacer()
-                        Text(taskItem.entryDate ?? Date(), formatter: Self.timeFormatter)
-                    }
-                }
                 Section(header: Text("Due Date")) {
                     HStack {
                         Text("Date")
@@ -55,6 +43,20 @@ struct TaskView: View {
                         Text(taskItem.dueDate ?? Date(), formatter: Self.timeFormatter)
                     }
                 }
+                
+                Section(header: Text("Entry Date")){
+                    HStack {
+                        Text("Date")
+                        Spacer()
+                        Text(taskItem.entryDate ?? Date(), formatter: Self.dateFormatter)
+                    }
+                    HStack {
+                        Text("Time")
+                        Spacer()
+                        Text(taskItem.entryDate ?? Date(), formatter: Self.timeFormatter)
+                    }
+                }
+                
                 Section(header: Text("Description")){
                     Text(taskItem.taskDescription ?? "No description")
                 }
