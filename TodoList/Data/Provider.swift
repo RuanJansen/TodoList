@@ -22,12 +22,6 @@ protocol TaskProviding {
 class Provider {
 
     @Environment(\.managedObjectContext) var moc
-//    @Published var pubMOC = moc
-    
-    
-//    init() {
-//        moc.fetch(<#T##request: NSFetchRequest<NSFetchRequestResult>##NSFetchRequest<NSFetchRequestResult>#>)
-//    }
     
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

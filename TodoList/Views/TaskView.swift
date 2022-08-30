@@ -59,9 +59,9 @@ struct TaskView: View {
                     Text(taskItem.taskDescription ?? "No description")
                 }
                 
-                Section(header: Text("Location")){
-//                    Map(coordinateRegion: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 18, longitude: 33), latitudinalMeters: -2, longitudinalMeters: -2))
-                }
+//                Section(header: Text("Location")){
+////                    Map(coordinateRegion: MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 18, longitude: 33), latitudinalMeters: -2, longitudinalMeters: -2))
+//                }
                 Spacer()
                 
             }
