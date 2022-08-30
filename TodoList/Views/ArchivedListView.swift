@@ -59,7 +59,7 @@ struct ArchivedListView: View {
                             }.tint(.red)
                                 .alert(isPresented: $showAlert){
                                     Alert(
-                                        title: Text("Are you sure you want to delete this?"),
+                                        title: Text("Do you want to unalive this task"),
                                         message: Text("There is no undo"),
                                         primaryButton: .destructive(Text("Delete")) {
                                             print("Deleting...")

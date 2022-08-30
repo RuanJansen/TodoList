@@ -21,6 +21,7 @@
 		1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72C46128B3830D00D3D122 /* ArchivedListView.swift */; };
 		1ADD631228B4D85600EC55EE /* MyTasks.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD631028B4D85600EC55EE /* MyTasks.xcdatamodeld */; };
 		1ADD631428B4D92300EC55EE /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1ADD631328B4D92300EC55EE /* DataController.swift */; };
+		F34A47C128BDEFE600618E48 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34A47C028BDEFE600618E48 /* SplashScreenView.swift */; };
 		F3EECB8B28B669E400A20DBF /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EECB8A28B669E400A20DBF /* EditTaskView.swift */; };
 /* End PBXBuildFile section */
 
@@ -59,6 +60,7 @@
 		1A72C46128B3830D00D3D122 /* ArchivedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedListView.swift; sourceTree = "<group>"; };
 		1ADD631128B4D85600EC55EE /* MyTasks.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyTasks.xcdatamodel; sourceTree = "<group>"; };
 		1ADD631328B4D92300EC55EE /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		F34A47C028BDEFE600618E48 /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		F3EECB8A28B669E400A20DBF /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 				1A72C45B28B3689900D3D122 /* TaskView.swift */,
 				F3EECB8A28B669E400A20DBF /* EditTaskView.swift */,
 				1A72C46128B3830D00D3D122 /* ArchivedListView.swift */,
+				F34A47C028BDEFE600618E48 /* SplashScreenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				1A72C45E28B36A7A00D3D122 /* AddTaskView.swift in Sources */,
 				1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */,
 				1ADD631228B4D85600EC55EE /* MyTasks.xcdatamodeld in Sources */,
+				F34A47C128BDEFE600618E48 /* SplashScreenView.swift in Sources */,
 				1ADD631428B4D92300EC55EE /* DataController.swift in Sources */,
 				1A72C42A28B362A000D3D122 /* TodoListApp.swift in Sources */,
 				F3EECB8B28B669E400A20DBF /* EditTaskView.swift in Sources */,
