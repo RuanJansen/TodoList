@@ -77,7 +77,7 @@ struct TaskView: View {
                 Button{
                     editMode.toggle()
                 }label: {
-                    Label("Edit", systemImage: "pencil")
+                    Text("Edit")
                 }
             }
         }

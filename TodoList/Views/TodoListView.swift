@@ -23,25 +23,27 @@ struct TodoListView: View {
             VStack {
                 List{
                     Section {
+                        ActiveList()
+                    }header: {
+                        Text("Active")
+                    }
+                    
+                    Section {
                         DoneList()
                     }header: {
                         Text("Done")
                     }
                     
-                    Section {
-                        ActiveList()
-                    }header: {
-                        Text("Active")
-                    }
+                    
                     
                 }
                 .sheet(isPresented: $showAddTask){
                     AddTaskView()
                 }
                 .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading){
-                        EditButton()
-                    }
+//                    ToolbarItem(placement: .navigationBarLeading){
+//                        EditButton()
+//                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: ArchivedListView()){
                             Label("Archive", systemImage: "archivebox")
