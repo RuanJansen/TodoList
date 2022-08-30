@@ -10,10 +10,15 @@ import SwiftUI
 @main
 struct TodoListApp: App {
     @StateObject private var dataController = DataController()
+    @State var isActive: Bool = false
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, dataController.container.viewContext)
+            if isActive {
+                ContentView()
+                    .environment(\.managedObjectContext, dataController.container.viewContext)
+            } else{
+                SplashScreenView(isActive: $isActive)
+            }
         }
     }
 }

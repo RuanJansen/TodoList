@@ -16,12 +16,12 @@ struct ArchivedListView: View {
         NavigationView {
             List{
                 Section {
-                    TaskList(filterDone: $filterDone)
+                    ListTask(filterDone: $filterDone)
                 }header: {
                     Text("Done")
                 }
                 Section {
-                    TaskList(filterDone: $filterActive)
+                    ListTask(filterDone: $filterActive)
                 }header: {
                     Text("Active")
                 }
