@@ -8,34 +8,43 @@
 import SwiftUI
 
 struct CompletionSummaryView: View {
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
+    
     @State var completedTasks: Float = 0.0
     @State var completedOverdueTasks: Float = 0.0
     @State var allTasksColor: Color = Color.green
     @State var overdueTasksColor: Color = Color.red
     var body: some View {
         VStack{
-            
-                Section {
-                    ProgressBar(progress: $completedOverdueTasks, color: $overdueTasksColor)
-                        .padding()
-                        .onAppear(){
-                            self.completedOverdueTasks = 0.25
-                        }
-                }header: {
-                    Text("Overdue Tasks")
-                }
-                Spacer()
-                Section {
-                    ProgressBar(progress: $completedTasks, color: $allTasksColor)
-                        .padding()
-                        .onAppear(){
-                            self.completedTasks = 0.75
-                        }
-                }header: {
-                    Text("Completed Tasks")
-                }
-            
-           
+            Section {
+                ProgressBar(progress: $completedOverdueTasks, color: $overdueTasksColor)
+                    .padding()
+                    .onAppear(){
+//                        let task = Task(context: moc)
+                        var total = tasks.count
+                        var overdue = tasks.filter{$0.isDone && $0.dueDate ?? Date() < Date()}.count
+                        print(overdue)
+                        print(total)
+                        self.completedOverdueTasks = Float(overdue)/Float(total)
+                    }
+            }header: {
+                Text("Overdue Tasks Completed")
+            }
+            Spacer()
+            Section {
+                ProgressBar(progress: $completedTasks, color: $allTasksColor)
+                    .padding()
+                    .onAppear(){
+                        var total = tasks.count
+                        var overdue = tasks.filter{$0.isDone}.count
+                        print(overdue)
+                        print(total)
+                        self.completedOverdueTasks = Float(overdue)/Float(total)
+                    }
+            }header: {
+                Text("All Tasks Completed")
+            }
         }.padding()
     }
 }
@@ -65,8 +74,8 @@ struct ProgressBar: View{
     }
 }
 
-struct CompletionSummaryView_Previews: PreviewProvider {
-    static var previews: some View {
-        CompletionSummaryView()
-    }
-}
+//struct CompletionSummaryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CompletionSummaryView()
+//    }
+//}
