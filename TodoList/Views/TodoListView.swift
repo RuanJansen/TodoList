@@ -22,17 +22,16 @@ struct TodoListView: View {
             VStack {
                 List{
                     Section {
-                        Section {
-                            TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)
-                        }header: {
-                            Text("Overdue")
-                        }
+                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)
+                    }header: {
+                        Text("Overdue")
+                    }
+                    
+                    Section {
                         
-                        Section {
-                            TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue)
-                        }header: {
-                            Text("To come")
-                        }
+                        
+                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue)
+                        
                         
                         
                     }header: {
@@ -40,7 +39,7 @@ struct TodoListView: View {
                     }
                     
                     Section {
-                        TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isNotOverdue)
+                        TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isOverdue)
                     }header: {
                         Text("Done")
                     }
@@ -52,13 +51,9 @@ struct TodoListView: View {
                     AddTaskView()
                 }
                 .toolbar {
-                    //                    ToolbarItem(placement: .navigationBarLeading){
-                    //                        EditButton()
-                    //                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: ArchivedListView()){
                             Label("Archive", systemImage: "archivebox")
-                            //                                .font(.headline)
                         }
                     }
                     ToolbarItem {
@@ -66,14 +61,9 @@ struct TodoListView: View {
                             showAddTask = true
                         }label: {
                             Label("Add", systemImage: "plus")
-                            //                                .font(.headline)
                         }
-                        
                     }
-                }
-                
-                
-                
+                }   
             }.navigationTitle("To Do")
         }
     }
