@@ -11,12 +11,14 @@ struct ContentView: View {
     @State var isActive: Bool = true
     var body: some View {
         TabView {
-            TodoListView().tabItem {
-                Label("My Taksk", systemImage: "list.bullet")
-            }
             CompletionSummaryView().tabItem {
                 Label("Completion Summary", systemImage: "timelapse")
             }
+            
+            TodoListView().tabItem {
+                Label("My Taksk", systemImage: "list.bullet")
+            }
+            
         }
     }
 }
