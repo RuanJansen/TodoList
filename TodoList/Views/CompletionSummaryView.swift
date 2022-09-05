@@ -18,45 +18,49 @@ struct CompletionSummaryView: View {
     @State var progressbarColorCompleted = Gradient(colors: [.white])
     @State var sizeCompleted: CGFloat = 0.0
     var body: some View {
-        NavigationView {
-            VStack{
-                Section {
-                    ProgressBar(progress: $valueOverdue, color: $progressbarColorOverdue)
-                        .onAppear(){
-                            let overdue = tasks.filter{$0.dueDate ?? Date() < Date() && !$0.isArchived}
-                            let totalOverdue = overdue.count
-                            let overdueTasks = overdue.filter{$0.isDone}.count
-                            let percentage = Float(overdueTasks)/Float(totalOverdue)
-                            print("Overdue \(percentage)")
-                            self.valueOverdue = percentage
-//                            self.progressbarColorOverdue = Color.red
-                            self.sizeOverdue = 200.0
-                            self.progressbarColorOverdue = Gradient(colors: [.red, .pink, .orange, .pink, .red])
-                        }
-                }header: {
-                    Text("Overdue Tasks Completed")
+        if tasks.isEmpty{
+            Text("No data to show")
+        }else{
+            NavigationView {
+                VStack{
+                    Section {
+                        ProgressBar(progress: $valueOverdue, color: $progressbarColorOverdue)
+                            .onAppear(){
+                                let overdue = tasks.filter{$0.dueDate ?? Date() < Date() && !$0.isArchived}
+                                let totalOverdue = overdue.count
+                                let overdueTasks = overdue.filter{$0.isDone}.count
+                                let percentage = Float(overdueTasks)/Float(totalOverdue)
+                                print("Overdue \(percentage)")
+                                self.valueOverdue = percentage
+    //                            self.progressbarColorOverdue = Color.red
+                                self.sizeOverdue = 200.0
+                                self.progressbarColorOverdue = Gradient(colors: [.red, .pink, .orange, .pink, .red])
+                            }
+                    }header: {
+                        Text("Overdue Tasks Completed")
+                    }
+                    .padding()
+                    Spacer()
+                    Section {
+                        ProgressBar(progress: $valueCompleted, color: $progressbarColorCompleted)
+                            .onAppear(){
+                                let all = tasks.filter {!$0.isArchived}
+                                let totalCompleted = all.count
+                                let completed = all.filter{$0.isDone}.count
+                                let percentage = Float(completed)/Float(totalCompleted)
+                                print("Completed \(percentage)")
+                                self.valueCompleted = percentage
+    //                            self.progressbarColorCompleted = Color.green
+                                self.sizeCompleted = 250.0
+                                self.progressbarColorCompleted = Gradient(colors: [.blue, .cyan, .purple, .cyan, .blue])
+                            }
+                    }header: {
+                        Text("All Tasks Completed")
+                    }
+                    .padding()
                 }
-                .padding()
-                Spacer()
-                Section {
-                    ProgressBar(progress: $valueCompleted, color: $progressbarColorCompleted)
-                        .onAppear(){
-                            let all = tasks.filter {!$0.isArchived}
-                            let totalCompleted = all.count
-                            let completed = all.filter{$0.isDone}.count
-                            let percentage = Float(completed)/Float(totalCompleted)
-                            print("Completed \(percentage)")
-                            self.valueCompleted = percentage
-//                            self.progressbarColorCompleted = Color.green
-                            self.sizeCompleted = 250.0
-                            self.progressbarColorCompleted = Gradient(colors: [.blue, .cyan, .purple, .cyan, .blue])
-                        }
-                }header: {
-                    Text("All Tasks Completed")
-                }
-                .padding()
+                .navigationTitle("Completion Summary")
             }
-            .navigationTitle("Completion Summary")
         }
             
     }
