@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CompletionSummaryView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
-    @Environment(\.managedObjectContext) var moc
     
     @State var completedTasks: Float = 0.0
     @State var completedOverdueTasks: Float = 0.0
@@ -21,12 +20,12 @@ struct CompletionSummaryView: View {
                 ProgressBar(progress: $completedOverdueTasks, color: $overdueTasksColor)
                     .padding()
                     .onAppear(){
-//                        let task = Task(context: moc)
-                        var total = tasks.count
-                        var overdue = tasks.filter{$0.isDone && $0.dueDate ?? Date() < Date()}.count
-                        print(overdue)
-                        print(total)
-                        self.completedOverdueTasks = Float(overdue)/Float(total)
+                        let overdue = tasks.filter{$0.dueDate ?? Date() < Date() && !$0.isArchived}
+                        let totalOverdue = overdue.count
+                        let overdueTasks = overdue.filter{$0.isDone}.count
+                        let percentage = Float(overdueTasks)/Float(totalOverdue)
+                        print("Overdue \(percentage)")
+                        self.completedOverdueTasks = percentage
                     }
             }header: {
                 Text("Overdue Tasks Completed")
@@ -36,11 +35,12 @@ struct CompletionSummaryView: View {
                 ProgressBar(progress: $completedTasks, color: $allTasksColor)
                     .padding()
                     .onAppear(){
-                        var total = tasks.count
-                        var overdue = tasks.filter{$0.isDone}.count
-                        print(overdue)
-                        print(total)
-                        self.completedOverdueTasks = Float(overdue)/Float(total)
+                        let all = tasks.filter {!$0.isArchived}
+                        let totalCompleted = all.count
+                        let completed = all.filter{$0.isDone}.count
+                        let percentage = Float(completed)/Float(totalCompleted)
+                        print("Completed \(percentage)")
+                        self.completedTasks = percentage
                     }
             }header: {
                 Text("All Tasks Completed")
