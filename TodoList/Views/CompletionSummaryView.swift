@@ -95,10 +95,25 @@ struct ProgressBar: View{
                 .animation(.easeInOut(duration: 2.0))
                 .frame(width: 200, height: 200, alignment: .center)
             
-            Text("\(Int(progress*100))%")
-                .font(.title)
+            
+            
+            Text(progressBarValue())
+                .font(.title3)
+//                else{
+//                Text("\(Int(progress*100))%")
+//                    .font(.title)
+//            }
         }
     }
+    
+    func progressBarValue()->String{
+        guard !(progress.isNaN || progress.isInfinite) else {
+            return "No Data to display"
+                
+        }
+        return "\(Int(progress*100))%"
+    }
+    
 }
 
 //struct CompletionSummaryView_Previews: PreviewProvider {
