@@ -10,7 +10,14 @@ import SwiftUI
 struct ContentView: View {
     @State var isActive: Bool = true
     var body: some View {
-        TodoListView()
+        TabView {
+            TodoListView().tabItem {
+                Label("My Taksk", systemImage: "list.bullet")
+            }
+            CompletionSummaryView().tabItem {
+                Label("Completion Summary", systemImage: "timelapse")
+            }
+        }
     }
 }
 
