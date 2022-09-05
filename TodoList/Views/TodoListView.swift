@@ -14,20 +14,32 @@ struct TodoListView: View {
     @State var filterDone = true
     @State var filterActive = false
     @State var showAddTask = false
-    
+    @State var isOverdue = false
+    @State var isNotOverdue = true
     
     var body: some View {
         NavigationView {
             VStack {
                 List{
                     Section {
-                        TaskList(provider: provider, filterDone: $filterActive)
+                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)
+                    }header: {
+                        Text("Overdue")
+                    }
+                    
+                    Section {
+                        
+                        
+                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue)
+                        
+                        
+                        
                     }header: {
                         Text("Active")
                     }
                     
                     Section {
-                        TaskList(provider: provider, filterDone: $filterDone)
+                        TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isOverdue)
                     }header: {
                         Text("Done")
                     }
@@ -55,12 +67,8 @@ struct TodoListView: View {
                             Label("Add", systemImage: "plus")
                             //                                .font(.headline)
                         }
-                        
                     }
-                }
-                
-                
-                
+                }   
             }.navigationTitle("To Do")
         }
     }
@@ -98,6 +106,7 @@ struct TodoListView: View {
 struct TaskList: View {
     var provider = Provider()
     @Binding var filterDone: Bool
+    @Binding var isOverdue: Bool
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
@@ -109,7 +118,7 @@ struct TaskList: View {
     
     var body: some View {
         ForEach(tasks.filter {
-            !$0.isArchived && $0.isDone == filterDone
+            (!$0.isArchived && $0.isDone == filterDone) && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
         }){ task in
             var taskItem = task
             HStack {
@@ -147,6 +156,14 @@ struct TaskList: View {
             provider.moveTask(indices: indices, newOffset: newOffset)
         })
     }
+    
+    func calcIsOverdue(dueDate: Date) -> Bool{
+        if dueDate > Date(){
+            return true
+        }else{
+            return false
+        }
+    }
     func doneTask(task: Task){
         task.isDone.toggle()
         try? moc.save()
@@ -166,3 +183,13 @@ struct TaskList: View {
 //        TodoListView()
 //    }
 //}
+
+
+
+
+
+
+
+
+
+
