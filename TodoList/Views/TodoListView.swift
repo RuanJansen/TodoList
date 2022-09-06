@@ -16,7 +16,6 @@ struct TodoListView: View {
     @State var showAddTask = false
     @State var isOverdue = false
     @State var isNotOverdue = true
-    
     var body: some View {
         NavigationView {
             VStack {
@@ -26,38 +25,24 @@ struct TodoListView: View {
                     }header: {
                         Text("Overdue")
                     }
-                    
                     Section {
-                        
-                        
                         TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue)
-                        
-                        
-                        
                     }header: {
                         Text("Active")
                     }
-                    
                     Section {
                         TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isOverdue)
                     }header: {
                         Text("Done")
                     }
-                    
-                    
-                    
                 }
                 .sheet(isPresented: $showAddTask){
                     AddTaskView()
                 }
                 .toolbar {
-                    //                    ToolbarItem(placement: .navigationBarLeading){
-                    //                        EditButton()
-                    //                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: ArchivedListView()){
                             Label("Archive", systemImage: "archivebox")
-                            //                                .font(.headline)
                         }
                     }
                     ToolbarItem {
@@ -65,7 +50,6 @@ struct TodoListView: View {
                             showAddTask = true
                         }label: {
                             Label("Add", systemImage: "plus")
-                            //                                .font(.headline)
                         }
                     }
                 }   
@@ -82,13 +66,7 @@ struct TodoListView: View {
         task.dueDate = Date()
         task.isDone = false
         task.isArchived = false
-        
     }
-    
-    
-    
-    
-    
     
     func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
         let task = Task(context: moc)
@@ -126,13 +104,16 @@ struct TaskList: View {
                     if task.isDone {
                         Text("\(task.title ?? "Unknown")")
                             .strikethrough()
+                        Spacer()
+                        Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
+                            .strikethrough()
                     } else {
                         Text("\(task.title ?? "Unknown")")
-                        
+                        Spacer()
+                        Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
                     }
                     
-                    Spacer()
-                    Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
+                    
                 }
             }
             .swipeActions(edge: .trailing){
@@ -150,7 +131,6 @@ struct TaskList: View {
                     Label("Done", systemImage: "checkmark")
                 }.tint(.blue)
             }
-            
         }
         .onMove(perform: { indices, newOffset in
             provider.moveTask(indices: indices, newOffset: newOffset)
@@ -164,6 +144,7 @@ struct TaskList: View {
             return false
         }
     }
+    
     func doneTask(task: Task){
         task.isDone.toggle()
         try? moc.save()
