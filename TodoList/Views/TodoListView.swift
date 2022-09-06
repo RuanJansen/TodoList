@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TodoListView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
     @Environment(\.managedObjectContext) var moc
     var provider = Provider()
     @State var filterDone = true
@@ -16,13 +17,45 @@ struct TodoListView: View {
     @State var showAddTask = false
     @State var isOverdue = false
     @State var isNotOverdue = true
+    @State var categoryParent = ""
+    @State var selectedCategory = ""
     
     var body: some View {
         NavigationView {
             VStack {
+                ScrollView(.horizontal) {
+                    HStack {
+//                        Button {
+//                           addCategory(name: "Groceries")
+//                        } label: {
+//                            ZStack {
+//                                Capsule()
+//                                    .frame(width: 50, height: 25, alignment: .center)
+//                                    .foregroundColor(.blue)
+//                                Text("Add")
+//                                    .foregroundColor(.white)
+//                            }
+//                        }
+                        
+                        ForEach(categories, id: \.self) {category in
+                            Button() {
+                                selectedCategory = category.name!
+//                                @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "categoryParent.name MATCHES %@", parentCategory!.name!)) var tasks: FetchedResults<Task>
+                            } label: {
+                                ZStack {
+                                    Capsule()
+                                        .frame(width: 100, height: 25, alignment: .center)
+                                        .foregroundColor(.blue)
+                                    Text(category.name!)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                        }
+                    }
+                }
                 List{
                     Section {
-                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)
+                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue, selectedCategory: $selectedCategory)
                     }header: {
                         Text("Overdue")
                     }
@@ -30,7 +63,7 @@ struct TodoListView: View {
                     Section {
                         
                         
-                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue)
+                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue, selectedCategory: $selectedCategory)
                         
                         
                         
@@ -39,7 +72,7 @@ struct TodoListView: View {
                     }
                     
                     Section {
-                        TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isOverdue)
+                        TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isOverdue, selectedCategory: $selectedCategory)
                     }header: {
                         Text("Done")
                     }
@@ -73,6 +106,14 @@ struct TodoListView: View {
         }
     }
     
+//    func addCategory(name: String) {
+//        let newCat = Category(context: moc)
+//        newCat.name = name
+//
+//        try? moc .save()
+//        print("Saved")
+//    }
+    
     func populateMocTasks(){
         let task = Task(context: moc)
         task.id = UUID()
@@ -84,11 +125,6 @@ struct TodoListView: View {
         task.isArchived = false
         
     }
-    
-    
-    
-    
-    
     
     func updateTask(indexSet: IndexSet, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
         let task = Task(context: moc)
@@ -107,6 +143,7 @@ struct TaskList: View {
     var provider = Provider()
     @Binding var filterDone: Bool
     @Binding var isOverdue: Bool
+    @Binding var selectedCategory: String
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
@@ -118,7 +155,8 @@ struct TaskList: View {
     
     var body: some View {
         ForEach(tasks.filter {
-            (!$0.isArchived && $0.isDone == filterDone) && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            ($0.categoryParent?.name == selectedCategory) && (!$0.isArchived && $0.isDone == filterDone) && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            
         }){ task in
             var taskItem = task
             HStack {
@@ -128,7 +166,6 @@ struct TaskList: View {
                             .strikethrough()
                     } else {
                         Text("\(task.title ?? "Unknown")")
-                        
                     }
                     
                     Spacer()
@@ -140,7 +177,6 @@ struct TaskList: View {
                     archiveTask(task: task)
                 } label: {
                     Label("Archive", systemImage: "archivebox")
-                    
                 }.tint(.blue)
             }
             .swipeActions(edge: .leading){
@@ -150,7 +186,6 @@ struct TaskList: View {
                     Label("Done", systemImage: "checkmark")
                 }.tint(.blue)
             }
-            
         }
         .onMove(perform: { indices, newOffset in
             provider.moveTask(indices: indices, newOffset: newOffset)

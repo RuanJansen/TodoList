@@ -16,6 +16,7 @@ struct TodoListApp: App {
             if isActive {
                 ContentView()
                     .environment(\.managedObjectContext, dataController.container.viewContext)
+
             } else {
                 SplashScreenView(isActive: $isActive)
             }

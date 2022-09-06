@@ -50,12 +50,14 @@ struct EditTaskView: View {
             }.navigationTitle("Edit Task")
         }
     }
+    
     func editTask(taskItem: Task, title: String, description: String, dueDate: Date){
         taskItem.title = title
         taskItem.taskDescription = description
         taskItem.dueDate = dueDate
         try? moc.save()
     }
+    
 }
 
 //struct EditTaskView_Previews: PreviewProvider {
