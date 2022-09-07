@@ -23,36 +23,7 @@ struct TodoListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                ScrollView(.horizontal) {
-                    HStack {
-//                        Button {
-//                           addCategory(name: "Groceries")
-//                        } label: {
-//                            ZStack {
-//                                Capsule()
-//                                    .frame(width: 50, height: 25, alignment: .center)
-//                                    .foregroundColor(.blue)
-//                                Text("Add")
-//                                    .foregroundColor(.white)
-//                            }
-//                        }
-                        
-                        ForEach(categories, id: \.self) {category in
-                            Button() {
-                                selectedCategory = category.name!
-//                                @FetchRequest(sortDescriptors: [], predicate: NSPredicate(format: "categoryParent.name MATCHES %@", parentCategory!.name!)) var tasks: FetchedResults<Task>
-                            } label: {
-                                ZStack {
-                                    Capsule()
-                                        .frame(width: 100, height: 25, alignment: .center)
-                                        .foregroundColor(.blue)
-                                    Text(category.name!)
-                                        .foregroundColor(.white)
-                                }
-                            }
-                        }
-                    }
-                }
+                CategoryView()
                 List{
                     Section {
                         TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue, selectedCategory: $selectedCategory)
