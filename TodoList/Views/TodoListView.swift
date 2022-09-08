@@ -18,7 +18,10 @@ struct TodoListView: View {
     @State var isNotOverdue = true
     var body: some View {
         NavigationView {
+            
             VStack {
+                CalendarComponent()
+                    .frame(height: 150)
                 List{
                     Section {
                         TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)
@@ -35,11 +38,14 @@ struct TodoListView: View {
                     }header: {
                         Text("Done")
                     }
-                }
+                }.ignoresSafeArea()
                 .sheet(isPresented: $showAddTask){
                     AddTaskView()
                 }
                 .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading){
+                        Text(Date().formatted(date: .abbreviated, time: .omitted))
+                    }
                     ToolbarItem(placement: .navigationBarTrailing) {
                         NavigationLink(destination: ArchivedListView()){
                             Label("Archive", systemImage: "archivebox")
@@ -53,7 +59,8 @@ struct TodoListView: View {
                         }
                     }
                 }   
-            }.navigationTitle("To Do")
+            }
+            .navigationTitle("Today")
         }
     }
     
