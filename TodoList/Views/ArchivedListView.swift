@@ -47,7 +47,7 @@ struct ArchivedTaskView: View {
         ForEach(tasks.filter {
             $0.isArchived
             && $0.isDone == isCompleted
-            && calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue
+            && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
         }){ task in
             HStack {
                 Text("\(task.title ?? "Unknown")")

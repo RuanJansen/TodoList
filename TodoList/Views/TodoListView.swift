@@ -235,9 +235,6 @@ struct WeekList: View {
                         Spacer()
                         Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
                             .strikethrough(isCompleted ? true : false)
- 
-                    
-                    
                 }
             }
             .swipeActions(edge: .trailing){
