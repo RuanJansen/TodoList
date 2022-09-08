@@ -31,9 +31,9 @@ struct CalendarComponent: View {
                                             Text(calendarModel.extractDate(date: day, format: "EEE"))
                                             
                                             Circle()
-                                                .fill(.white)
+                                                .fill(calendarModel.isToday(date: day) ? .white : .blue)
                                                 .frame(width: 10, height: 10, alignment: .center)
-                                                .opacity(calendarModel.isToday(date: day) ? 1 : 0)
+                                                .opacity(calendarModel.isCurrentDay(date: day) ? 1 : 0)
                                                 
                                         }
                                         .foregroundColor(calendarModel.isToday(date: day) ? .white : .blue)

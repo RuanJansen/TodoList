@@ -12,7 +12,6 @@ struct ArchivedListView: View {
     @State var isCompleted = false
     @State var isOverdue = false
     var body: some View {
-        NavigationView {
             
             VStack {
                 FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
@@ -22,9 +21,9 @@ struct ArchivedListView: View {
                     
                     
                 }
-            }.navigationTitle("Archived")
+            }
+            .navigationTitle("Archived")
             
-        }
     }
     
     

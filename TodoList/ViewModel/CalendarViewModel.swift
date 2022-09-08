@@ -41,4 +41,9 @@ class CalendarViewModel: ObservableObject{
         let calnedar = Calendar.current
         return calnedar.isDate(currentDay, inSameDayAs: date)
     }
+    
+    func isCurrentDay(date: Date) -> Bool{
+        let calnedar = Calendar.current
+        return calnedar.isDate(Date(), inSameDayAs: date)
+    }
 }

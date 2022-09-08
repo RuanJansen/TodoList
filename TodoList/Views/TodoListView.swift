@@ -134,7 +134,7 @@ struct TaskList: View {
         ForEach(tasks.filter {(
             !$0.isArchived
             && $0.isDone == isCompleted)
-            && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
         }){ task in
             var taskItem = task
             HStack {
@@ -224,7 +224,7 @@ struct WeekList: View {
         ForEach(tasks.filter {(
             !$0.isArchived
             && $0.isDone == isCompleted)
-            && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
             && isSameDay(date1: $0.dueDate ?? Date(), date2: calendarModel.currentDay)
         }){ task in
             var taskItem = task
