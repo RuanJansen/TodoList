@@ -11,54 +11,83 @@ struct TodoListView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     var provider = Provider()
-    @State var filterDone = true
-    @State var filterActive = false
     @State var showAddTask = false
+    @State var isCompleted = false
     @State var isOverdue = false
-    @State var isNotOverdue = true
+    @State var isArchived = false
+    //    @State var isDate = true
     var body: some View {
         NavigationView {
-            
             VStack {
                 CalendarComponent()
                     .frame(height: 125)
+                
+                HStack{
+                    Button{
+                        isOverdue.toggle()
+                    }label:{
+                        ZStack{
+                            Capsule()
+                                .opacity(isOverdue ? 1 : 0)
+                                .foregroundColor(.blue)
+                                .frame(width: 100, height: 25)
+                            Text("Overdue")
+                                .foregroundColor(isOverdue ? .white : .blue)
+                        }
+                    }
+                    Spacer()
+                    Button{
+                        isCompleted.toggle()
+                    }label:{
+                        ZStack{
+                            Capsule()
+                                .opacity(isCompleted ? 1 : 0)
+                                .foregroundColor(.blue)
+                                .frame(width: 100, height: 25)
+                            Text("Completed")
+                                .foregroundColor(isCompleted ? .white : .blue)
+                        }
+                    }
+                    
+                    Spacer()
+                    Button{
+                        isArchived.toggle()
+                    }label:{
+                        ZStack{
+                            Capsule()
+                                .opacity(isArchived ? 1 : 0)
+                                .foregroundColor(.blue)
+                                .frame(width: 100, height: 25)
+                            Text("Archived")
+                                .foregroundColor(isArchived ? .white : .blue)
+                        }
+                    }
+                    
+                }.padding()
+                
                 List{
-                    Section {
-                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)
-                    }header: {
-                        Text("Overdue")
-                    }
-                    Section {
-                        TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue)
-                    }header: {
-                        Text("Active")
-                    }
-                    Section {
-                        TaskList(provider: provider, filterDone: $filterDone, isOverdue: $isOverdue)
-                    }header: {
-                        Text("Done")
-                    }
+                    TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, isArchived: $isArchived)
                 }.ignoresSafeArea()
-                .sheet(isPresented: $showAddTask){
-                    AddTaskView()
-                }
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading){
-                        Text(Date().formatted(date: .abbreviated, time: .omitted))
+                    .sheet(isPresented: $showAddTask){
+                        AddTaskView()
                     }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        NavigationLink(destination: ArchivedListView()){
-                            Label("Archive", systemImage: "archivebox")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarLeading){
+                            Text(Date().formatted(date: .abbreviated, time: .omitted))
+                        }
+//                        ToolbarItem(placement: .navigationBarTrailing) {
+//                            NavigationLink(destination: ArchivedListView()){
+//                                Label("Archive", systemImage: "archivebox")
+//                            }
+//                        }
+                        ToolbarItem {
+                            Button{
+                                showAddTask = true
+                            }label: {
+                                Label("Add", systemImage: "plus")
+                            }
                         }
                     }
-                    ToolbarItem {
-                        Button{
-                            showAddTask = true
-                        }label: {
-                            Label("Add", systemImage: "plus")
-                        }
-                    }
-                }   
             }
             .navigationTitle("Today")
         }
@@ -90,8 +119,12 @@ struct TodoListView: View {
 
 struct TaskList: View {
     var provider = Provider()
-    @Binding var filterDone: Bool
+    @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
+    @Binding var isArchived: Bool
+    
+    @StateObject var calendarModel = CalendarViewModel()
+    
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
@@ -102,8 +135,11 @@ struct TaskList: View {
     }()
     
     var body: some View {
-        ForEach(tasks.filter {
-            (!$0.isArchived && $0.isDone == filterDone) && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+        ForEach(tasks.filter {(
+            $0.isArchived == isArchived
+            && $0.isDone == isCompleted)
+            && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            && ($0.dueDate == calendarModel.currentDay)
         }){ task in
             var taskItem = task
             HStack {
