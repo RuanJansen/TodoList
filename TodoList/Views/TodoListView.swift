@@ -21,7 +21,7 @@ struct TodoListView: View {
             
             VStack {
                 CalendarComponent()
-                    .frame(height: 150)
+                    .frame(height: 125)
                 List{
                     Section {
                         TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue)

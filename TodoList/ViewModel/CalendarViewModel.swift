@@ -9,7 +9,7 @@ import Foundation
 
 class CalendarViewModel: ObservableObject{
     @Published var currentWeek: [Date] = []
-    
+    @Published var currentDay: Date = Date()
     init(){
         fetchCurrntWeek()
     }
@@ -35,5 +35,10 @@ class CalendarViewModel: ObservableObject{
         let formatter = DateFormatter()
         formatter.dateFormat = format
         return formatter.string(from: date)
+    }
+    
+    func isToday(date: Date) -> Bool{
+        let calnedar = Calendar.current
+        return calnedar.isDate(currentDay, inSameDayAs: date)
     }
 }

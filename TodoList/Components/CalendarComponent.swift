@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CalendarComponent: View {
     @StateObject var calendarModel = CalendarViewModel()
+    @Namespace var animation
     var body: some View {
         VStack{
             LazyVStack(spacing: 15, pinnedViews: [.sectionHeaders]){
@@ -22,15 +23,42 @@ struct CalendarComponent: View {
                                     
                                     ZStack {
                                         Capsule()
-                                            .frame(width: 50, height: 100, alignment: .center)
+                                            .opacity(calendarModel.isToday(date: day) ? 1 : 0)
+                                            .foregroundColor(.blue)
                                         VStack(spacing: 10 ) {
                                             Text(calendarModel.extractDate(date: day, format: "dd"))
                                             
                                             Text(calendarModel.extractDate(date: day, format: "EEE"))
                                             
+                                            Circle()
+                                                .fill(.white)
+                                                .frame(width: 10, height: 10, alignment: .center)
+                                                .opacity(calendarModel.isToday(date: day) ? 1 : 0)
                                                 
-                                        }.foregroundColor(.white)
+                                        }
+                                        .foregroundColor(calendarModel.isToday(date: day) ? .white : .blue)
+                                        .foregroundStyle(calendarModel.isToday(date: day) ? .primary : .secondary)
                                         
+                                        .font(.system(size: 15))
+                                        
+                                    }
+                                    .frame(width: 45, height: 90, alignment: .center)
+                                    .foregroundColor(calendarModel.isToday(date: day) ? .blue : .white)
+                                    .background(
+                                        ZStack{
+                                            if calendarModel.isToday(date: day){
+                                                Capsule()
+                                                    .fill(.blue)
+                                                    .opacity(0.5)
+//                                                    .matchedGeometryEffect(id: "CURRENTDAY", in: animation)
+                                            }
+                                        }
+                                    )
+//                                    .contentShape(Capsule())
+                                    .onTapGesture {
+//                                        withAnimation{
+                                            calendarModel.currentDay = day
+//                                        }
                                     }
                                 }
                                 
@@ -40,7 +68,7 @@ struct CalendarComponent: View {
                     }
                 } 
             }
-        }.padding(.horizontal)
+        }
     }
     // MARK: Header
     func HeaderView()->some View{
@@ -64,7 +92,7 @@ struct CalendarComponent_Previews: PreviewProvider {
 }
 
 // MARK: UI Design helper functions
-extension View{
+extension View{    
     func hLeading()->some View{
         self.frame(maxWidth: .infinity, alignment: .leading)
     }
