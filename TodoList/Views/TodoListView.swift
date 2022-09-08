@@ -23,7 +23,38 @@ struct TodoListView: View {
     var body: some View {
         NavigationView {
             VStack {
-                CategoryView()
+                ScrollView(.horizontal) {
+                    HStack {
+                        Button {
+                           
+                        } label: {
+                            ZStack {
+                                Text("All")
+                                    .foregroundColor(.blue)
+                                    .frame(width: 50, height: 25, alignment: .center)
+                                    .overlay(
+                                        Capsule(style: .continuous)
+                                            .stroke(Color.blue, lineWidth: 2)
+                                    )
+                            }
+                        }
+                        
+                        ForEach(categories, id: \.self) {category in
+                            Button() {
+                                selectedCategory = category.name!
+                            } label: {
+                                ZStack {
+                                    Capsule()
+                                        .frame(width: 100, height: 25, alignment: .center)
+                                        .foregroundColor(.blue)
+                                    Text(category.name!)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                        }
+                    }
+                }
+                
                 List{
                     Section {
                         TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isOverdue, selectedCategory: $selectedCategory)
@@ -32,12 +63,7 @@ struct TodoListView: View {
                     }
                     
                     Section {
-                        
-                        
                         TaskList(provider: provider, filterDone: $filterActive, isOverdue: $isNotOverdue, selectedCategory: $selectedCategory)
-                        
-                        
-                        
                     }header: {
                         Text("Active")
                     }
@@ -47,9 +73,6 @@ struct TodoListView: View {
                     }header: {
                         Text("Done")
                     }
-                    
-                    
-                    
                 }
                 .sheet(isPresented: $showAddTask){
                     AddTaskView()

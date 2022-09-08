@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct CategoryView: View {
-//    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
-//    @Environment(\.managedObjectContext) var moc
+    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
+    @Environment(\.managedObjectContext) var moc
 //
 //    @State var category: Category
 //    @State var showAddCategory = false
@@ -28,7 +28,7 @@ struct CategoryView: View {
 //        }
 //    }
     
-        @State var categories = ["work", "etertainment", "school"]
+//        @State var categories = ["work", "etertainment", "school"]
         @State var showAddCategory = false
         @State var title: String = ""
         
@@ -37,13 +37,13 @@ struct CategoryView: View {
                 HStack {
                     ForEach(categories, id:\.self) {category in
                         Button{
-                            //code
+//                            selectedCategory = category.name ?? "Category"
                         }label: {
                             ZStack {
                                 Capsule()
                                     .frame(width: 115, height: 25, alignment: .center)
                                     .foregroundColor(.blue)
-                                Text(category)
+                                Text(category.name ?? "Category")
                                     .foregroundColor(.white)
                             }
                         }
@@ -54,8 +54,8 @@ struct CategoryView: View {
     
 }
 
-struct CategoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryView()
-    }
-}
+//struct CategoryView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CategoryView()
+//    }
+//}
