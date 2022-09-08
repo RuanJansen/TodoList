@@ -58,6 +58,7 @@ struct CalendarComponent: View {
                                     .onTapGesture {
 //                                        withAnimation{
                                             calendarModel.currentDay = day
+                                        print(calendarModel.currentDay)
 //                                        }
                                     }
                                 }

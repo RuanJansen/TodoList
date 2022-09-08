@@ -139,7 +139,8 @@ struct TaskList: View {
             $0.isArchived == isArchived
             && $0.isDone == isCompleted)
             && (calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
-            && ($0.dueDate == calendarModel.currentDay)
+            && isSameDay(date1: $0.dueDate ?? Date(), date2: calendarModel.currentDay)
+//            && ($0.dueDate == calendarModel.currentDay)
         }){ task in
             var taskItem = task
             HStack {
@@ -158,6 +159,9 @@ struct TaskList: View {
                     
                     
                 }
+            }.onAppear{
+                print("LOL")
+                print(task.dueDate)
             }
             .swipeActions(edge: .trailing){
                 Button{
@@ -178,6 +182,15 @@ struct TaskList: View {
         .onMove(perform: { indices, newOffset in
             provider.moveTask(indices: indices, newOffset: newOffset)
         })
+    }
+    
+    func isSameDay(date1: Date, date2: Date) -> Bool {
+        let diff = Calendar.current.dateComponents([.day], from: date1, to: date2)
+        if diff.day == 0 {
+            return true
+        } else {
+            return false
+        }
     }
     
     func calcIsOverdue(dueDate: Date) -> Bool{
