@@ -8,81 +8,77 @@
 import SwiftUI
 
 struct ArchivedListView: View {
-    let provider = Provider()
-    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
-    @Environment(\.managedObjectContext) var moc
     @State var showAlert: Bool = false
+    @State var isCompleted = false
+    @State var isOverdue = false
     var body: some View {
         NavigationView {
-            List{
-                Section {
-                    ForEach(tasks.filter {$0.isArchived && $0.isDone}){ task in
-                        HStack {
-                            Text("\(task.title ?? "Unknown")")
-                                .strikethrough()
-                        }
-                        .padding()
-                        .swipeActions(edge: .leading){
-                            Button(role: .destructive){
-                                //delete
-                            }label: {
-                                Label("Delete", systemImage: "trash.fill")
-                            }.tint(.red)
-                        }
-                        .swipeActions(edge: .trailing){
-                            Button{
-                                unArchiveTask(task: task)
-                            }label: {
-                                Label("Unarchive", systemImage: "archivebox.fill")
-                            }
-                        }.tint(.blue)
-                        
-                    }.onDelete(perform:
-                                provider.removeTask
-                    )
-                }header: {
-                    Text("Done")
-                }
-                
-                Section {
-                    ForEach(tasks.filter {$0.isArchived && !$0.isDone}){ task in
-                        HStack {
-                            Text("\(task.title ?? "Unknown")")
-                        }
-                        .padding()
-                        .swipeActions(edge: .leading){
-                            Button(){
-                                //delete
-                                showAlert = true
-                            }label: {
-                                Label("Delete", systemImage: "trash.fill")
-                            }.tint(.red)
-                                .alert(isPresented: $showAlert){
-                                    Alert(
-                                        title: Text("Do you want to unalive this task"),
-                                        message: Text("There is no undo"),
-                                        primaryButton: .destructive(Text("Delete")) {
-                                            print("Deleting...")
-                                        },
-                                        secondaryButton: .cancel())
-                                }
-                        }
-                        .swipeActions(edge: .trailing){
-                            Button{
-                                unArchiveTask(task: task)
-                            }label: {
-                                Label("Unarchive", systemImage: "archivebox.fill")
-                            }
-                        }.tint(.blue)
-                        
-                    }.onDelete(perform:
-                                provider.removeTask
-                    )
-                }header: {
-                    Text("Active")
+            
+            VStack {
+                FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
+                List{
+                    ArchivedTaskView(isCompleted: $isCompleted, isOverdue: $isOverdue)
+                    
+                    
+                    
                 }
             }.navigationTitle("Archived")
             
+        }
+    }
+    
+    
+    
+    
+}
+
+struct ArchivedListView_Previews: PreviewProvider {
+    static var previews: some View {
+        ArchivedListView()
+    }
+}
+
+struct ArchivedTaskView: View {
+    @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
+    let provider = Provider()
+    @Binding var isCompleted: Bool
+    @Binding var isOverdue: Bool
+    var body: some View {
+        ForEach(tasks.filter {
+            $0.isArchived
+            && $0.isDone == isCompleted
+            && calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue
+        }){ task in
+            HStack {
+                Text("\(task.title ?? "Unknown")")
+                    .strikethrough(isCompleted ? true : false)
+            }
+            .padding()
+            .swipeActions(edge: .leading){
+                Button(role: .destructive){
+                    //delete
+                }label: {
+                    Label("Delete", systemImage: "trash.fill")
+                }.tint(.red)
+            }
+            .swipeActions(edge: .trailing){
+                Button{
+                    unArchiveTask(task: task)
+                }label: {
+                    Label("Unarchive", systemImage: "archivebox.fill")
+                }
+            }.tint(.blue)
+            
+        }.onDelete(perform:
+                    provider.removeTask
+        )
+    }
+    func calcIsOverdue(dueDate: Date) -> Bool{
+        if dueDate > Date(){
+            return true
+        }else{
+            return false
         }
     }
     
@@ -93,13 +89,5 @@ struct ArchivedListView: View {
     
     func removeTask(indexSet: IndexSet){
         //        $taskItem.remove(atOffsets: indexSet)
-    }
-    
-    
-}
-
-struct ArchivedListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ArchivedListView()
     }
 }

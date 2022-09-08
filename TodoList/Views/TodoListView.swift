@@ -14,7 +14,6 @@ struct TodoListView: View {
     @State var showAddTask = false
     @State var isCompleted = false
     @State var isOverdue = false
-    @State var isArchived = false
     @State var showWeek = true
     var body: some View {
         NavigationView {
@@ -57,34 +56,7 @@ struct TodoListView: View {
                         .frame(height: 125)
                 }
                 
-                HStack{
-                    Button{
-                        isOverdue.toggle()
-                    }label:{
-                        ZStack{
-                            Capsule()
-                                .opacity(isOverdue ? 1 : 0)
-                                .foregroundColor(.blue)
-                                .frame(width: 100, height: 25)
-                            Text("Overdue")
-                                .foregroundColor(isOverdue ? .white : .blue)
-                        }
-                    }
-                    Spacer()
-                    Button{
-                        isCompleted.toggle()
-                    }label:{
-                        ZStack{
-                            Capsule()
-                                .opacity(isCompleted ? 1 : 0)
-                                .foregroundColor(.blue)
-                                .frame(width: 100, height: 25)
-                            Text("Completed")
-                                .foregroundColor(isCompleted ? .white : .blue)
-                        }
-                    }
-                    
-                }.padding()
+                FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
                 
                 List{
                     if showWeek {
@@ -258,17 +230,12 @@ struct WeekList: View {
             var taskItem = task
             HStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
-                    if task.isDone {
                         Text("\(task.title ?? "Unknown")")
-                            .strikethrough()
+                            .strikethrough(isCompleted ? true : false)
                         Spacer()
                         Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
-                            .strikethrough()
-                    } else {
-                        Text("\(task.title ?? "Unknown")")
-                        Spacer()
-                        Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
-                    }
+                            .strikethrough(isCompleted ? true : false)
+ 
                     
                     
                 }
@@ -330,6 +297,7 @@ struct WeekList: View {
 //        TodoListView()
 //    }
 //}
+
 
 
 
