@@ -61,7 +61,11 @@ struct TaskView: View {
                     Text(taskItem.taskDescription ?? "No description")
                 }
                 
-                            
+                Section(header: Text("Category")){
+                    Text(taskItem.category?.name ?? "No Category")
+
+                }
+                
             }
         }
         .navigationTitle(taskItem.title ?? "Unknown task").padding()

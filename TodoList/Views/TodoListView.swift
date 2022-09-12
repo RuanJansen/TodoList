@@ -54,6 +54,9 @@ struct TodoListView: View {
                     
                     
                 }
+                
+                CategoryComponent()
+                
                 if showWeek {
                     CalendarComponent(calendarModel: calendarModel)
                         .frame(height: 125)
@@ -122,8 +125,9 @@ struct TaskList: View {
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
     
-//    @ObservedObject var calendarModel = CalendarViewModel()
-    
+    @StateObject var calendarModel = CalendarViewModel()
+    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
+
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
@@ -227,6 +231,7 @@ struct WeekList: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
+
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM yyyy"
