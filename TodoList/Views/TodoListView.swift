@@ -15,6 +15,9 @@ struct TodoListView: View {
     @State var isCompleted = false
     @State var isOverdue = false
     @State var showWeek = true
+    
+    @StateObject var calendarModel = CalendarViewModel()
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -52,7 +55,7 @@ struct TodoListView: View {
                     
                 }
                 if showWeek {
-                    CalendarComponent()
+                    CalendarComponent(calendarModel: calendarModel)
                         .frame(height: 125)
                 }
                 
@@ -60,7 +63,7 @@ struct TodoListView: View {
                 
                 List{
                     if showWeek {
-                        WeekList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue)
+                        WeekList(calendarModel: calendarModel, provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue)
                     } else {
                         TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue)
                     }
@@ -119,7 +122,7 @@ struct TaskList: View {
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
     
-    @StateObject var calendarModel = CalendarViewModel()
+//    @ObservedObject var calendarModel = CalendarViewModel()
     
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
@@ -131,9 +134,9 @@ struct TaskList: View {
     }()
     
     var body: some View {
-        ForEach(tasks.filter {(
-            !$0.isArchived
-            && $0.isDone == isCompleted)
+        ForEach(tasks.filter {
+            (!$0.isArchived)
+            && ($0.isDone == isCompleted)
             && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
         }){ task in
             var taskItem = task
@@ -205,11 +208,13 @@ struct TaskList: View {
 }
 
 struct WeekList: View {
+    @ObservedObject var calendarModel = CalendarViewModel()
     var provider = Provider()
+
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
     
-    @StateObject var calendarModel = CalendarViewModel()
+   
     
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
@@ -221,12 +226,7 @@ struct WeekList: View {
     }()
     
     var body: some View {
-        ForEach(tasks.filter {(
-            !$0.isArchived
-            && $0.isDone == isCompleted)
-            && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
-            && isSameDay(date1: $0.dueDate ?? Date(), date2: calendarModel.currentDay)
-        }){ task in
+        ForEach(filterTasks()){ task in
             var taskItem = task
             HStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
@@ -283,6 +283,20 @@ struct WeekList: View {
     func archiveTask(task: Task){
         task.isArchived = true
         try? moc.save()
+    }
+    
+    func filterTasks()->[Task] {
+        return tasks.filter {
+            let notArchive = !$0.isArchived
+            let taskIsCompleted = $0.isDone == isCompleted
+            let taskIsNotOverdue = !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            let taskIsSelectedDay = (isSameDay(date1: $0.dueDate ?? Date(), date2: calendarModel.currentDay))
+            
+            return notArchive
+            && taskIsCompleted
+            && taskIsNotOverdue
+            && taskIsSelectedDay
+        }
     }
     
 }

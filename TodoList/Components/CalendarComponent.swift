@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CalendarComponent: View {
-    @StateObject var calendarModel = CalendarViewModel()
+    @ObservedObject var calendarModel = CalendarViewModel()
     @Namespace var animation
     var body: some View {
         VStack{
