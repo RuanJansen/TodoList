@@ -27,6 +27,7 @@
 		F34943BC28CA39DF00DE9507 /* FilterComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34943BB28CA39DF00DE9507 /* FilterComponent.swift */; };
 		F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */; };
 		F3DF1AF728CF458F00524433 /* TextFieldAlertComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */; };
+		F3DF1AF928CF512C00524433 /* CategoryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DF1AF828CF512C00524433 /* CategoryComponent.swift */; };
 		F3EECB8B28B669E400A20DBF /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EECB8A28B669E400A20DBF /* EditTaskView.swift */; };
 /* End PBXBuildFile section */
 
@@ -71,6 +72,7 @@
 		F34943BB28CA39DF00DE9507 /* FilterComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterComponent.swift; sourceTree = "<group>"; };
 		F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionSummaryView.swift; sourceTree = "<group>"; };
 		F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlertComponent.swift; sourceTree = "<group>"; };
+		F3DF1AF828CF512C00524433 /* CategoryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryComponent.swift; sourceTree = "<group>"; };
 		F3EECB8A28B669E400A20DBF /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -165,6 +167,7 @@
 				F34943BB28CA39DF00DE9507 /* FilterComponent.swift */,
 				F34943B628C9E0B400DE9507 /* CalendarComponent.swift */,
 				F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */,
+				F3DF1AF828CF512C00524433 /* CategoryComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */,
 				F34943BA28C9E4E500DE9507 /* CalendarViewModel.swift in Sources */,
 				1ADD631428B4D92300EC55EE /* DataController.swift in Sources */,
+				F3DF1AF928CF512C00524433 /* CategoryComponent.swift in Sources */,
 				1A72C42A28B362A000D3D122 /* TodoListApp.swift in Sources */,
 				F3EECB8B28B669E400A20DBF /* EditTaskView.swift in Sources */,
 				1A72C45628B362F200D3D122 /* TodoListView.swift in Sources */,

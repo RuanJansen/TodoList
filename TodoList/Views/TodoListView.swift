@@ -51,6 +51,9 @@ struct TodoListView: View {
                     
                     
                 }
+                
+                CategoryComponent()
+                
                 if showWeek {
                     CalendarComponent()
                         .frame(height: 125)
