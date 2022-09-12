@@ -58,6 +58,7 @@ struct TodoListView: View {
                 }
                 
                 CategoryComponent(selectedCategory: $selectedCategory, categoryActive: $categoryActive)
+                    
                 
                 if showWeek {
                     CalendarComponent(calendarModel: calendarModel)

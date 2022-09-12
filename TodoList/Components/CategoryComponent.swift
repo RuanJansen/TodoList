@@ -13,7 +13,7 @@ struct CategoryComponent: View {
     @Binding var categoryActive: Bool
     var body: some View {
         ScrollView(.horizontal){
-            HStack{
+            HStack(spacing: 25){
                 ForEach(categories){ category in
                     Button{
                         categoryActive.toggle()
@@ -21,7 +21,7 @@ struct CategoryComponent: View {
                     }label: {
                         ZStack{
                             Capsule()
-                                .frame(width: 100, height: 25, alignment: .center)
+                                .frame(width: 125, height: 25, alignment: .center)
                                 .foregroundColor(categoryActive && category.name == selectedCategory ? .blue : .white)
                                 .opacity(categoryActive && category.name == selectedCategory ? 1 : 0)
                             Text(category.name ?? "No Category")
@@ -30,7 +30,7 @@ struct CategoryComponent: View {
                     }
                     
                 }
-            }
+            }.padding()
         }.frame(height: 50)
     }
 }
