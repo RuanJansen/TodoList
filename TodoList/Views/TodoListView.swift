@@ -120,7 +120,8 @@ struct TaskList: View {
     @Binding var isOverdue: Bool
     
     @StateObject var calendarModel = CalendarViewModel()
-    
+    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
+
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
@@ -202,6 +203,14 @@ struct TaskList: View {
         try? moc.save()
     }
     
+    func addCategory(name: String) {
+        let newCat = Category(context: moc)
+        newCat.name = name
+
+        try? moc .save()
+        print("Saved")
+    }
+    
 }
 
 struct WeekList: View {
@@ -214,6 +223,7 @@ struct WeekList: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
+
     static let dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "d MMM yyyy"
@@ -288,6 +298,14 @@ struct WeekList: View {
         try? moc.save()
     }
     
+    
+//    func addCategory(name: String) {
+//        let newCat = Category(context: moc)
+//        newCat.name = name
+//
+//        try? moc .save()
+//        print("Saved")
+//    }
 }
 
 

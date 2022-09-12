@@ -9,6 +9,8 @@ import SwiftUI
 
 struct EditTaskView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
+
     @Environment(\.managedObjectContext) var moc
     @Environment (\.presentationMode) var presentationMode
     
@@ -17,7 +19,8 @@ struct EditTaskView: View {
     @Binding var description: String
     @Binding var dueDate: Date
     @Binding var entryDate: Date
-    
+    @State var isShowing: Bool = false
+
     var body: some View {
         NavigationView {
             ZStack {
@@ -31,7 +34,26 @@ struct EditTaskView: View {
                     Section(header: Text("Due Date")){
                         DatePicker(selection: $dueDate, label: { Text("Date") })
                     }
-                    
+                    Section(header: Text("Category")){
+                        Menu("Select Category"){
+                                Button{
+                                    isShowing = true
+                                    
+                                }label: {
+                                    Text("Add Category")
+                                }
+                            
+                            
+                            ForEach(categories, id: \.self){ category in
+                                Button{
+                                    editCategory(taskItem: taskItem, categoryName: category.name ?? "No Category")
+                                }label:{
+                                    Text(category.name ?? "No Category")
+                                }
+                                
+                            }
+                        }
+                    }
                 }
                 VStack{
                     Spacer()
@@ -50,6 +72,12 @@ struct EditTaskView: View {
             }.navigationTitle("Edit Task")
         }
     }
+    
+    func editCategory(taskItem: Task, categoryName: String){
+        taskItem.category?.name = categoryName
+        try? moc.save()
+    }
+    
     func editTask(taskItem: Task, title: String, description: String, dueDate: Date){
         taskItem.title = title
         taskItem.taskDescription = description
