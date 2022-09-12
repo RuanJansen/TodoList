@@ -9,21 +9,23 @@ import SwiftUI
 
 struct CategoryComponent: View {
     @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
-    @State var selectedCategory: String = ""
+    @Binding var selectedCategory: String
+    @Binding var categoryActive: Bool
     var body: some View {
         ScrollView(.horizontal){
             HStack{
                 ForEach(categories){ category in
                     Button{
+                        categoryActive.toggle()
                         selectedCategory = category.name ?? "No Category"
                     }label: {
                         ZStack{
                             Capsule()
                                 .frame(width: 100, height: 25, alignment: .center)
-                                .foregroundColor(category.name == selectedCategory ? .blue : .white)
-                                .opacity(category.name == selectedCategory ? 1 : 0)
+                                .foregroundColor(categoryActive && category.name == selectedCategory ? .blue : .white)
+                                .opacity(categoryActive && category.name == selectedCategory ? 1 : 0)
                             Text(category.name ?? "No Category")
-                                .foregroundColor(category.name == selectedCategory ? .white : .blue)
+                                .foregroundColor(categoryActive && category.name == selectedCategory ? .white : .blue)
                         }
                     }
                     
@@ -33,8 +35,8 @@ struct CategoryComponent: View {
     }
 }
 
-struct CategoryComponent_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryComponent()
-    }
-}
+//struct CategoryComponent_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CategoryComponent(selectedCategory: "", categoryActive: .constant(false))
+//    }
+//}

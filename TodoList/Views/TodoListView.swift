@@ -15,6 +15,8 @@ struct TodoListView: View {
     @State var isCompleted = false
     @State var isOverdue = false
     @State var showWeek = true
+    @State var selectedCategory: String = ""
+    @State var categoryActive: Bool = false
     
     @StateObject var calendarModel = CalendarViewModel()
     
@@ -55,7 +57,7 @@ struct TodoListView: View {
                     
                 }
                 
-                CategoryComponent()
+                CategoryComponent(selectedCategory: $selectedCategory, categoryActive: $categoryActive)
                 
                 if showWeek {
                     CalendarComponent(calendarModel: calendarModel)
@@ -66,9 +68,9 @@ struct TodoListView: View {
                 
                 List{
                     if showWeek {
-                        WeekList(calendarModel: calendarModel, provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue)
+                        WeekList(calendarModel: calendarModel, provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
                     } else {
-                        TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue)
+                        TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
                     }
                 }.ignoresSafeArea()
                     .sheet(isPresented: $showAddTask){
@@ -124,6 +126,8 @@ struct TaskList: View {
     var provider = Provider()
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
+    @Binding var selectedCategory: String
+    @Binding var categoryActive: Bool
     
     @StateObject var calendarModel = CalendarViewModel()
     @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
@@ -210,10 +214,18 @@ struct TaskList: View {
             let notArchive = !$0.isArchived
             let taskIsCompleted = $0.isDone == isCompleted
             let taskIsNotOverdue = !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            let taskCategory = ($0.category?.name == selectedCategory)
             
-            return notArchive
-            && taskIsCompleted
-            && taskIsNotOverdue
+            if categoryActive {
+                return notArchive
+                && taskIsCompleted
+                && taskIsNotOverdue
+                && taskCategory
+            }else{
+                return notArchive
+                && taskIsCompleted
+                && taskIsNotOverdue
+            }
         }
     }
     
@@ -225,7 +237,8 @@ struct WeekList: View {
 
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
-    
+    @Binding var selectedCategory: String
+    @Binding var categoryActive: Bool
    
     
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
@@ -304,11 +317,22 @@ struct WeekList: View {
             let taskIsCompleted = $0.isDone == isCompleted
             let taskIsNotOverdue = !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
             let taskIsSelectedDay = (isSameDay(date1: $0.dueDate ?? Date(), date2: calendarModel.currentDay))
+            let taskCategory = ($0.category?.name == selectedCategory)
             
-            return notArchive
-            && taskIsCompleted
-            && taskIsNotOverdue
-            && taskIsSelectedDay
+            if categoryActive {
+                return notArchive
+                && taskIsCompleted
+                && taskIsNotOverdue
+                && taskIsSelectedDay
+                && taskCategory
+            }else{
+                return notArchive
+                && taskIsCompleted
+                && taskIsNotOverdue
+                && taskIsSelectedDay
+            }
+            
+            
         }
     }
     
