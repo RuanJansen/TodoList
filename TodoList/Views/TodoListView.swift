@@ -134,11 +134,7 @@ struct TaskList: View {
     }()
     
     var body: some View {
-        ForEach(tasks.filter {
-            (!$0.isArchived)
-            && ($0.isDone == isCompleted)
-            && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
-        }){ task in
+        ForEach(filterTasks()){ task in
             var taskItem = task
             HStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
@@ -203,6 +199,18 @@ struct TaskList: View {
     func archiveTask(task: Task){
         task.isArchived = true
         try? moc.save()
+    }
+    
+    func filterTasks()->[Task] {
+        return tasks.filter {
+            let notArchive = !$0.isArchived
+            let taskIsCompleted = $0.isDone == isCompleted
+            let taskIsNotOverdue = !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
+            
+            return notArchive
+            && taskIsCompleted
+            && taskIsNotOverdue
+        }
     }
     
 }
