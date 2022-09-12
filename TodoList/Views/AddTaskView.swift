@@ -88,7 +88,6 @@ struct AddTaskView: View {
     
     func addTask(categoryName: String, title: String, description: String, entryDate: Date, dueDate: Date, isDone: Bool, isArchived: Bool){
         let task = Task(context: moc)
-        task.category?.name = categoryName
         task.id = UUID()
         task.title = title
         task.taskDescription = description
@@ -96,7 +95,13 @@ struct AddTaskView: View {
         task.dueDate = dueDate
         task.isDone = isDone
         task.isArchived = isArchived
-        
+        for category in categories {
+            if category.name == categoryName {
+                task.category = category
+                print("added: \n")
+                print(task.category)
+            }
+        }
         try? moc.save()
     }
     

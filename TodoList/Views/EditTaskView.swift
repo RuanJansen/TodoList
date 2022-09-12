@@ -20,6 +20,7 @@ struct EditTaskView: View {
     @Binding var dueDate: Date
     @Binding var entryDate: Date
     @State var isShowing: Bool = false
+    @State var categoryName: String = ""
 
     var body: some View {
         NavigationView {
@@ -46,7 +47,8 @@ struct EditTaskView: View {
                             
                             ForEach(categories, id: \.self){ category in
                                 Button{
-                                    editCategory(taskItem: taskItem, categoryName: category.name ?? "No Category")
+//                                    editCategory(taskItem: taskItem, categoryName: category.name ?? "No Category")
+                                    categoryName = category.name ?? "No Category"
                                 }label:{
                                     Text(category.name ?? "No Category")
                                 }
@@ -62,7 +64,7 @@ struct EditTaskView: View {
                             .frame(width: 130, height: 50)
                             .foregroundColor(.blue)
                         Button{
-                            editTask(taskItem: taskItem, title: title, description: description, dueDate: dueDate)
+                            editTask(categoryName: categoryName, taskItem: taskItem, title: title, description: description, dueDate: dueDate)
                             presentationMode.wrappedValue.dismiss()
                         }label:{
                             Text("Save task")
@@ -74,14 +76,29 @@ struct EditTaskView: View {
     }
     
     func editCategory(taskItem: Task, categoryName: String){
-        taskItem.category?.name = categoryName
+        for category in categories {
+            if category.name == categoryName {
+                taskItem.category = category
+                print("added: \n")
+                print(taskItem.category)
+            }
+        }
         try? moc.save()
     }
     
-    func editTask(taskItem: Task, title: String, description: String, dueDate: Date){
+    func editTask(categoryName: String, taskItem: Task, title: String, description: String, dueDate: Date){
         taskItem.title = title
         taskItem.taskDescription = description
         taskItem.dueDate = dueDate
+        
+        for category in categories {
+            if category.name == categoryName {
+                taskItem.category = category
+                print("added: \n")
+                print(taskItem.category)
+            }
+        }
+        
         try? moc.save()
     }
 }
