@@ -26,6 +26,8 @@
 		F34943BA28C9E4E500DE9507 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34943B928C9E4E500DE9507 /* CalendarViewModel.swift */; };
 		F34943BC28CA39DF00DE9507 /* FilterComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34943BB28CA39DF00DE9507 /* FilterComponent.swift */; };
 		F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */; };
+		F3E0DA4528CDEC27004AD91B /* ListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0DA4428CDEC27004AD91B /* ListComponent.swift */; };
+		F3E0DABD28CE5E8C004AD91B /* DynamicFilteredComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E0DABC28CE5E8C004AD91B /* DynamicFilteredComponent.swift */; };
 		F3EECB8B28B669E400A20DBF /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3EECB8A28B669E400A20DBF /* EditTaskView.swift */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +71,8 @@
 		F34943B928C9E4E500DE9507 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		F34943BB28CA39DF00DE9507 /* FilterComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterComponent.swift; sourceTree = "<group>"; };
 		F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionSummaryView.swift; sourceTree = "<group>"; };
+		F3E0DA4428CDEC27004AD91B /* ListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListComponent.swift; sourceTree = "<group>"; };
+		F3E0DABC28CE5E8C004AD91B /* DynamicFilteredComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFilteredComponent.swift; sourceTree = "<group>"; };
 		F3EECB8A28B669E400A20DBF /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -160,7 +164,10 @@
 		F34943B528C9E09700DE9507 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F34943BB28CA39DF00DE9507 /* FilterComponent.swift */,
 				F34943B628C9E0B400DE9507 /* CalendarComponent.swift */,
+				F3E0DA4428CDEC27004AD91B /* ListComponent.swift */,
+				F3E0DABC28CE5E8C004AD91B /* DynamicFilteredComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -169,7 +176,6 @@
 			isa = PBXGroup;
 			children = (
 				F34943B928C9E4E500DE9507 /* CalendarViewModel.swift */,
-				F34943BB28CA39DF00DE9507 /* FilterComponent.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -339,8 +345,10 @@
 				1ADD631428B4D92300EC55EE /* DataController.swift in Sources */,
 				1A72C42A28B362A000D3D122 /* TodoListApp.swift in Sources */,
 				F3EECB8B28B669E400A20DBF /* EditTaskView.swift in Sources */,
+				F3E0DABD28CE5E8C004AD91B /* DynamicFilteredComponent.swift in Sources */,
 				1A72C45628B362F200D3D122 /* TodoListView.swift in Sources */,
 				1A72C45C28B3689900D3D122 /* TaskView.swift in Sources */,
+				F3E0DA4528CDEC27004AD91B /* ListComponent.swift in Sources */,
 				1A72C45A28B363BB00D3D122 /* Provider.swift in Sources */,
 				F34943B728C9E0B400DE9507 /* CalendarComponent.swift in Sources */,
 			);
