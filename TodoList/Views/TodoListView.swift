@@ -171,10 +171,10 @@ struct TaskList: View {
             }
             .swipeActions(edge: .leading){
                 Button{
-                    doneTask(task: task)
+                    CompleteTask(task: task)
                 } label: {
-                    Label("Done", systemImage: "checkmark")
-                }.tint(.blue)
+                    Label("Complete", systemImage: "checkmark")
+                }.tint(.yellow)
             }
         }
         .onMove(perform: { indices, newOffset in
@@ -199,7 +199,7 @@ struct TaskList: View {
         }
     }
     
-    func doneTask(task: Task){
+    func CompleteTask(task: Task){
         task.isDone.toggle()
         try? moc.save()
     }
@@ -267,10 +267,10 @@ struct WeekList: View {
             }
             .swipeActions(edge: .leading){
                 Button{
-                    doneTask(task: task)
+                    CompleteTask(task: task)
                 } label: {
-                    Label("Done", systemImage: "checkmark")
-                }.tint(.blue)
+                    Label("Complete", systemImage: "checkmark")
+                }.tint(.yellow)
             }
         }
         .onMove(perform: { indices, newOffset in
@@ -298,7 +298,7 @@ struct WeekList: View {
         }
     }
     
-    func doneTask(task: Task){
+    func CompleteTask(task: Task){
         task.isDone.toggle()
         try? moc.save()
     }

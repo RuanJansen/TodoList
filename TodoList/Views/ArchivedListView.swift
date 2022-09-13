@@ -17,9 +17,6 @@ struct ArchivedListView: View {
                 FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
                 List{
                     ArchivedTaskView(isCompleted: $isCompleted, isOverdue: $isOverdue)
-                    
-                    
-                    
                 }
             }
             .navigationTitle("Archived")
@@ -53,7 +50,6 @@ struct ArchivedTaskView: View {
                 Text("\(task.title ?? "Unknown")")
                     .strikethrough(isCompleted ? true : false)
             }
-            .padding()
             .swipeActions(edge: .leading){
                 Button(role: .destructive){
                     //delete
