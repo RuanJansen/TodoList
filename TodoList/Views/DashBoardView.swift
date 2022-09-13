@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CompletionSummaryView: View {
+struct DashBoardView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     //Completed
     @State var valueCompleted: Float = 0.0
@@ -154,7 +154,6 @@ struct CompletionSummaryView: View {
                             VStack{
                                 FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
                                 List{
-                                    
                                     ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
                                 }
                             }.navigationTitle(navTitle)
@@ -173,7 +172,7 @@ struct CompletionSummaryView: View {
 
 
 
-//struct CompletionSummaryView_Previews: PreviewProvider {
+//struct DashBoardView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        CompletionSummaryView()
 //    }
