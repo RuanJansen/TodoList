@@ -16,6 +16,9 @@ struct TodoListView: View {
     @State var isOverdue = false
     @State var showWeek = true
     @State var selectedCategory: String = ""
+//    var selectedCategoryString: String{
+//        CategoryHandler.fetchActiveCategory(moc: moc)?.name ?? "No Category"
+//    }
     @State var categoryActive: Bool = false
     @StateObject var calendarModel = CalendarViewModel()
     
@@ -55,7 +58,7 @@ struct TodoListView: View {
                     
                     
                 }
-                
+//                categoryActive = ((CategoryHandler.fetchActiveCategory(moc: moc)?.isActive) != nil)
                 CategoryComponent(selectedCategory: $selectedCategory, categoryActive: $categoryActive)
                     
                 
@@ -124,6 +127,7 @@ struct TodoListView: View {
 
 struct TaskList: View {
     var provider = Provider()
+//    var dateHandler = DateHandler()
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
     @Binding var selectedCategory: String
@@ -135,11 +139,7 @@ struct TaskList: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM yyyy"
-        return formatter
-    }()
+    
     
     var body: some View {
         ForEach(filterTasks()){ task in
@@ -150,12 +150,12 @@ struct TaskList: View {
                         Text("\(task.title ?? "Unknown")")
                             .strikethrough()
                         Spacer()
-                        Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
+                        Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
                             .strikethrough()
                     } else {
                         Text("\(task.title ?? "Unknown")")
                         Spacer()
-                        Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
+                        Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
                     }
                     
                     
@@ -244,12 +244,6 @@ struct WeekList: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
     
-
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "d MMM yyyy"
-        return formatter
-    }()
     
     var body: some View {
         ForEach(filterTasks()){ task in
@@ -259,7 +253,7 @@ struct WeekList: View {
                         Text("\(task.title ?? "Unknown")")
                             .strikethrough(isCompleted ? true : false)
                         Spacer()
-                        Text("\(task.dueDate ?? Date(), formatter: TaskList.dateFormatter )")
+                        Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
                             .strikethrough(isCompleted ? true : false)
                 }
             }
@@ -285,8 +279,7 @@ struct WeekList: View {
     }
     
     func isSameDay(date1: Date, date2: Date) -> Bool {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd"
+        let formatter = DateHandler.dayMonthYearDateFormatter        
         let day1 = formatter.string(from: date1)
         let day2 = formatter.string(from: date2)
         
