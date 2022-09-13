@@ -18,10 +18,10 @@ struct ListComponent: View {
     
     @StateObject var calendarModel = CalendarViewModel()
     @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
-
+    
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
-
+    
     var body: some View {
         ForEach(filterTasks()){ task in
             var taskItem = task
@@ -86,10 +86,12 @@ struct ListComponent: View {
     }
     
     func isSameDay(date1: Date, date2: Date) -> Bool {
-        let diff = Calendar.current.dateComponents([.day], from: date1, to: date2)
-        if diff.day == 0 {
+        let formatter = DateHandler.dayMonthYearDateFormatter
+        let day1 = formatter.string(from: date1)
+        let day2 = formatter.string(from: date2)
+        if day1 == day2{
             return true
-        } else {
+        }else{
             return false
         }
     }
@@ -143,7 +145,7 @@ struct ListComponent: View {
                     && taskIsNotOverdue
                     && taskIsSelectedDay
                 }
-
+                
             }else{
                 if showWeek{
                     if categoryActive {
