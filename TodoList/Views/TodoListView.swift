@@ -12,6 +12,7 @@ struct TodoListView: View {
     @Environment(\.managedObjectContext) var moc
     var provider = Provider()
     @State var showAddTask = false
+    @State var isArchive = false
     @State var isCompleted = false
     @State var isOverdue = false
     @State var showWeek = true
@@ -70,11 +71,7 @@ struct TodoListView: View {
                 FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
                 
                 List{
-                    if showWeek {
-                        WeekList(calendarModel: calendarModel, provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
-                    } else {
-                        TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
-                    }
+                    ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
                 }.ignoresSafeArea()
                     .sheet(isPresented: $showAddTask){
                         AddTaskView()

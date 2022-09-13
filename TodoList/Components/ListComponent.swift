@@ -9,9 +9,8 @@ import SwiftUI
 
 struct ListComponent: View {
     var provider = Provider()
-//    var dateHandler = DateHandler()
     @Binding var showWeek: Bool
-    @Binding var isArchived: Bool
+    @Binding var isArchive: Bool
     @Binding var isCompleted: Bool
     @Binding var isOverdue: Bool
     @Binding var selectedCategory: String
@@ -22,9 +21,7 @@ struct ListComponent: View {
 
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     @Environment(\.managedObjectContext) var moc
-    
-    
-    
+
     var body: some View {
         ForEach(filterTasks()){ task in
             var taskItem = task
@@ -46,19 +43,41 @@ struct ListComponent: View {
                 }
             }
             .swipeActions(edge: .trailing){
-                Button{
-                    archiveTask(task: task)
-                } label: {
-                    Label("Archive", systemImage: "archivebox")
-                    
-                }.tint(.blue)
+                if isArchive{
+                    Button{
+                        unArchiveTask(task: task)
+                    }label: {
+                        Label("Unarchive", systemImage: "archivebox.fill")
+                    }
+                    .tint(.blue)
+                }else{
+                    Button{
+                        archiveTask(task: task)
+                    } label: {
+                        Label("Archive", systemImage: "archivebox")
+                        
+                    }.tint(.blue)
+                }
+                
+                
             }
             .swipeActions(edge: .leading){
-                Button{
-                    doneTask(task: task)
-                } label: {
-                    Label("Done", systemImage: "checkmark")
-                }.tint(.blue)
+                if isArchive{
+                    Button(role: .destructive){
+                        //delete
+                    }label: {
+                        Label("Delete", systemImage: "trash.fill")
+                    }.tint(.red)
+                }else{
+                    Button{
+                        doneTask(task: task)
+                    } label: {
+                        Label("Done", systemImage: "checkmark")
+                    }.tint(.yellow)
+                }
+                
+                
+                
             }
         }
         .onMove(perform: { indices, newOffset in
@@ -83,6 +102,15 @@ struct ListComponent: View {
         }
     }
     
+    func unArchiveTask(task: Task){
+        task.isArchived = false
+        try? moc.save()
+    }
+    
+    func removeTask(indexSet: IndexSet){
+        //        $taskItem.remove(atOffsets: indexSet)
+    }
+    
     func doneTask(task: Task){
         task.isDone.toggle()
         try? moc.save()
@@ -95,36 +123,52 @@ struct ListComponent: View {
     
     func filterTasks()->[Task] {
         return tasks.filter {
-            let isArchive = !$0.isArchived
-            let notArchive = !$0.isArchived
+            let isArchived = $0.isArchived
+            let notArchived = !$0.isArchived
             let taskIsCompleted = $0.isDone == isCompleted
             let taskIsNotOverdue = !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
             let taskIsSelectedDay = (isSameDay(date1: $0.dueDate ?? Date(), date2: calendarModel.currentDay))
             let taskCategory = ($0.category?.name == selectedCategory)
             
-            if showWeek{
+            if isArchive{
                 if categoryActive {
-                    return notArchive
+                    return isArchived
                     && taskIsCompleted
                     && taskIsNotOverdue
                     && taskIsSelectedDay
                     && taskCategory
                 }else{
-                    return notArchive
+                    return isArchived
                     && taskIsCompleted
                     && taskIsNotOverdue
                     && taskIsSelectedDay
                 }
+
             }else{
-                if categoryActive {
-                    return notArchive
-                    && taskIsCompleted
-                    && taskIsNotOverdue
-                    && taskCategory
+                if showWeek{
+                    if categoryActive {
+                        return notArchived
+                        && taskIsCompleted
+                        && taskIsNotOverdue
+                        && taskIsSelectedDay
+                        && taskCategory
+                    }else{
+                        return notArchived
+                        && taskIsCompleted
+                        && taskIsNotOverdue
+                        && taskIsSelectedDay
+                    }
                 }else{
-                    return notArchive
-                    && taskIsCompleted
-                    && taskIsNotOverdue
+                    if categoryActive {
+                        return notArchived
+                        && taskIsCompleted
+                        && taskIsNotOverdue
+                        && taskCategory
+                    }else{
+                        return notArchived
+                        && taskIsCompleted
+                        && taskIsNotOverdue
+                    }
                 }
             }
             
