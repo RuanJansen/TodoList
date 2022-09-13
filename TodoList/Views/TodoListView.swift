@@ -17,7 +17,6 @@ struct TodoListView: View {
     @State var showWeek = true
     @State var selectedCategory: String = ""
     @State var categoryActive: Bool = false
-    
     @StateObject var calendarModel = CalendarViewModel()
     
     var body: some View {
@@ -286,8 +285,12 @@ struct WeekList: View {
     }
     
     func isSameDay(date1: Date, date2: Date) -> Bool {
-        let diff = Calendar.current.dateComponents([.day], from: date1, to: date2)
-        if diff.day == 0 {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd"
+        let day1 = formatter.string(from: date1)
+        let day2 = formatter.string(from: date2)
+        
+        if day1 == day2 {
             return true
         } else {
             return false
