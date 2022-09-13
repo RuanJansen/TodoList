@@ -25,8 +25,9 @@
 		F34943B728C9E0B400DE9507 /* CalendarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34943B628C9E0B400DE9507 /* CalendarComponent.swift */; };
 		F34943BA28C9E4E500DE9507 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34943B928C9E4E500DE9507 /* CalendarViewModel.swift */; };
 		F34943BC28CA39DF00DE9507 /* FilterComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34943BB28CA39DF00DE9507 /* FilterComponent.swift */; };
-		F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */; };
+		F370754D28C5E5B700BFD470 /* DashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370754C28C5E5B700BFD470 /* DashBoardView.swift */; };
 		F3D4F34B28D0D332007F2FD5 /* ListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D4F34A28D0D332007F2FD5 /* ListComponent.swift */; };
+		F3D4F34D28D0D994007F2FD5 /* ProgressbarComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3D4F34C28D0D994007F2FD5 /* ProgressbarComponent.swift */; };
 		F3DF1AF728CF458F00524433 /* TextFieldAlertComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */; };
 		F3DF1AF928CF512C00524433 /* CategoryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DF1AF828CF512C00524433 /* CategoryComponent.swift */; };
 		F3E2005A28D07CCA00BC43A2 /* DateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E2005928D07CCA00BC43A2 /* DateHandler.swift */; };
@@ -73,8 +74,9 @@
 		F34943B628C9E0B400DE9507 /* CalendarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarComponent.swift; sourceTree = "<group>"; };
 		F34943B928C9E4E500DE9507 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
 		F34943BB28CA39DF00DE9507 /* FilterComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterComponent.swift; sourceTree = "<group>"; };
-		F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionSummaryView.swift; sourceTree = "<group>"; };
+		F370754C28C5E5B700BFD470 /* DashBoardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashBoardView.swift; sourceTree = "<group>"; };
 		F3D4F34A28D0D332007F2FD5 /* ListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListComponent.swift; sourceTree = "<group>"; };
+		F3D4F34C28D0D994007F2FD5 /* ProgressbarComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressbarComponent.swift; sourceTree = "<group>"; };
 		F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlertComponent.swift; sourceTree = "<group>"; };
 		F3DF1AF828CF512C00524433 /* CategoryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryComponent.swift; sourceTree = "<group>"; };
 		F3E2005928D07CCA00BC43A2 /* DateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHandler.swift; sourceTree = "<group>"; };
@@ -130,11 +132,11 @@
 		1A72C42828B362A000D3D122 /* TodoList */ = {
 			isa = PBXGroup;
 			children = (
+				1A72C42928B362A000D3D122 /* TodoListApp.swift */,
+				1A72C42B28B362A000D3D122 /* ContentView.swift */,
 				F3E2005828D07CAC00BC43A2 /* Helper */,
 				F34943B828C9E4A800DE9507 /* ViewModel */,
 				F34943B528C9E09700DE9507 /* Components */,
-				1A72C42928B362A000D3D122 /* TodoListApp.swift */,
-				1A72C42B28B362A000D3D122 /* ContentView.swift */,
 				F3EECB8C28B6882600A20DBF /* Views */,
 				F3EECB8D28B6887200A20DBF /* Data */,
 				1A72C42F28B362A500D3D122 /* Preview Content */,
@@ -176,6 +178,7 @@
 				F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */,
 				F3DF1AF828CF512C00524433 /* CategoryComponent.swift */,
 				F3D4F34A28D0D332007F2FD5 /* ListComponent.swift */,
+				F3D4F34C28D0D994007F2FD5 /* ProgressbarComponent.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -205,7 +208,7 @@
 				F3EECB8A28B669E400A20DBF /* EditTaskView.swift */,
 				1A72C46128B3830D00D3D122 /* ArchivedListView.swift */,
 				F31744A628BE601900293FFE /* SplashScreenView.swift */,
-				F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */,
+				F370754C28C5E5B700BFD470 /* DashBoardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -354,12 +357,13 @@
 				1A72C42C28B362A000D3D122 /* ContentView.swift in Sources */,
 				1A72C45E28B36A7A00D3D122 /* AddTaskView.swift in Sources */,
 				F3E2005A28D07CCA00BC43A2 /* DateHandler.swift in Sources */,
+				F3D4F34D28D0D994007F2FD5 /* ProgressbarComponent.swift in Sources */,
 				F34943BC28CA39DF00DE9507 /* FilterComponent.swift in Sources */,
 				F3E2005C28D0827300BC43A2 /* CategoryHandler.swift in Sources */,
 				1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */,
 				1ADD631228B4D85600EC55EE /* MyTasks.xcdatamodeld in Sources */,
 				F31744A728BE601900293FFE /* SplashScreenView.swift in Sources */,
-				F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */,
+				F370754D28C5E5B700BFD470 /* DashBoardView.swift in Sources */,
 				F34943BA28C9E4E500DE9507 /* CalendarViewModel.swift in Sources */,
 				1ADD631428B4D92300EC55EE /* DataController.swift in Sources */,
 				F3DF1AF928CF512C00524433 /* CategoryComponent.swift in Sources */,
