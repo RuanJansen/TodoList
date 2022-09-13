@@ -16,7 +16,9 @@ struct CategoryComponent: View {
             HStack(spacing: 25){
                 ForEach(categories){ category in
                     Button{
-                        categoryActive.toggle()
+                        categoryActive = false
+                        category.isActive.toggle()
+                        categoryActive = category.isActive
                         selectedCategory = category.name ?? "No Category"
                     }label: {
                         ZStack{

@@ -63,7 +63,7 @@ struct TextFieldAlertComponent<Presenting>: View where Presenting: View {
     func addCategory(name: String) {
         let newCat = Category(context: moc)
         newCat.name = name
-
+        newCat.isActive = false
         try? moc .save()
         print("Saved")
     }
