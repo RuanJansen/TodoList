@@ -29,6 +29,7 @@
 		F36D2A4528D1067B00199B64 /* DashBoardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36D2A4428D1067B00199B64 /* DashBoardView.swift */; };
 		F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */; };
 		F3AD5AB528D1B65100987D0D /* ListComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AD5AB428D1B65100987D0D /* ListComponent.swift */; };
+		F3AD5AB728D1D77B00987D0D /* PopUpListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3AD5AB628D1D77B00987D0D /* PopUpListView.swift */; };
 		F3DF1AF728CF458F00524433 /* TextFieldAlertComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */; };
 		F3DF1AF928CF512C00524433 /* CategoryComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3DF1AF828CF512C00524433 /* CategoryComponent.swift */; };
 		F3E2005A28D07CCA00BC43A2 /* DateHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3E2005928D07CCA00BC43A2 /* DateHandler.swift */; };
@@ -79,6 +80,7 @@
 		F36D2A4428D1067B00199B64 /* DashBoardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DashBoardView.swift; path = "../../../../Documents/Documents - Ruan’s MacBook Air/Xcode Projects/Glucode/TodoList/TodoList/Views/DashBoardView.swift"; sourceTree = "<group>"; };
 		F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionSummaryView.swift; sourceTree = "<group>"; };
 		F3AD5AB428D1B65100987D0D /* ListComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListComponent.swift; sourceTree = "<group>"; };
+		F3AD5AB628D1D77B00987D0D /* PopUpListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpListView.swift; sourceTree = "<group>"; };
 		F3DF1AF628CF458F00524433 /* TextFieldAlertComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldAlertComponent.swift; sourceTree = "<group>"; };
 		F3DF1AF828CF512C00524433 /* CategoryComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryComponent.swift; sourceTree = "<group>"; };
 		F3E2005928D07CCA00BC43A2 /* DateHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHandler.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 				1A72C46128B3830D00D3D122 /* ArchivedListView.swift */,
 				F31744A628BE601900293FFE /* SplashScreenView.swift */,
 				F370754C28C5E5B700BFD470 /* CompletionSummaryView.swift */,
+				F3AD5AB628D1D77B00987D0D /* PopUpListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				1A72C46228B3830D00D3D122 /* ArchivedListView.swift in Sources */,
 				1ADD631228B4D85600EC55EE /* MyTasks.xcdatamodeld in Sources */,
 				F31744A728BE601900293FFE /* SplashScreenView.swift in Sources */,
+				F3AD5AB728D1D77B00987D0D /* PopUpListView.swift in Sources */,
 				F370754D28C5E5B700BFD470 /* CompletionSummaryView.swift in Sources */,
 				F34943BA28C9E4E500DE9507 /* CalendarViewModel.swift in Sources */,
 				1ADD631428B4D92300EC55EE /* DataController.swift in Sources */,
