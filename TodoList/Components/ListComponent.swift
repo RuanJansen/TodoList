@@ -25,21 +25,16 @@ struct ListComponent: View {
     var body: some View {
         ForEach(filterTasks()){ task in
             var taskItem = task
-            HStack {
+            VStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
-                    if task.isDone {
+                    VStack(alignment: .leading) {
                         Text("\(task.title ?? "Unknown")")
-                            .strikethrough()
-                        Spacer()
-                        Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
-                            .strikethrough()
-                    } else {
-                        Text("\(task.title ?? "Unknown")")
+                            .strikethrough(isCompleted ? true : false)
+                            .font(.title3)
+                            .bold()
                         Spacer()
                         Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
                     }
-                    
-                    
                 }
             }
             .swipeActions(edge: .trailing){
@@ -137,13 +132,13 @@ struct ListComponent: View {
                     return isArchived
                     && taskIsCompleted
                     && taskIsNotOverdue
-                    && taskIsSelectedDay
-                    && taskCategory
+//                    && taskIsSelectedDay
+//                    && taskCategory
                 }else{
                     return isArchived
                     && taskIsCompleted
                     && taskIsNotOverdue
-                    && taskIsSelectedDay
+//                    && taskIsSelectedDay
                 }
                 
             }else{

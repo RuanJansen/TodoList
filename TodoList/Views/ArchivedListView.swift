@@ -16,7 +16,7 @@ struct ArchivedListView: View {
             VStack {
                 FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
                 List{
-                    ArchivedTaskView(isCompleted: $isCompleted, isOverdue: $isOverdue)
+                    ArchivedTaskView(isCompleted: $isCompleted, isOverdue: $isOverdue).padding()
                 }
             }
             .navigationTitle("Archived")
@@ -46,9 +46,13 @@ struct ArchivedTaskView: View {
             && $0.isDone == isCompleted
             && !(calcIsOverdue(dueDate: $0.dueDate ?? Date()) == isOverdue)
         }){ task in
-            HStack {
+            VStack(alignment: .leading) {
                 Text("\(task.title ?? "Unknown")")
                     .strikethrough(isCompleted ? true : false)
+                    .font(.title3)
+                    .bold()
+                Spacer()
+                Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
             }
             .swipeActions(edge: .leading){
                 Button(role: .destructive){

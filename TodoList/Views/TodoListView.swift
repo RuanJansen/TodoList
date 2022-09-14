@@ -14,7 +14,7 @@ struct TodoListView: View {
     @State var showAddTask = false
     @State var isCompleted = false
     @State var isOverdue = false
-    @State var showWeek = true
+    @State var showWeek = false
     @State var selectedCategory: String = ""
 //    var selectedCategoryString: String{
 //        CategoryHandler.fetchActiveCategory(moc: moc)?.name ?? "No Category"
@@ -26,20 +26,6 @@ struct TodoListView: View {
         NavigationView {
             VStack {
                 HStack{
-                    Button{
-                        withAnimation{
-                            showWeek = true
-                        }
-                    }label:{
-                        ZStack{
-                            Capsule()
-                                .opacity(showWeek ? 1 : 0)
-                                .foregroundColor(.blue)
-                                .frame(width: 100, height: 25)
-                            Text("Week")
-                                .foregroundColor(showWeek ? .white : .blue)
-                        }
-                    }
                     
                     Button{
                         withAnimation{
@@ -53,6 +39,21 @@ struct TodoListView: View {
                                 .frame(width: 100, height: 25)
                             Text("all")
                                 .foregroundColor(!showWeek ? .white : .blue)
+                        }
+                    }
+                    
+                    Button{
+                        withAnimation{
+                            showWeek = true
+                        }
+                    }label:{
+                        ZStack{
+                            Capsule()
+                                .opacity(showWeek ? 1 : 0)
+                                .foregroundColor(.blue)
+                                .frame(width: 100, height: 25)
+                            Text("Week")
+                                .foregroundColor(showWeek ? .white : .blue)
                         }
                     }
                     
@@ -71,9 +72,9 @@ struct TodoListView: View {
                 
                 List{
                     if showWeek {
-                        WeekList(calendarModel: calendarModel, provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
+                        WeekList(calendarModel: calendarModel, provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive).padding()
                     } else {
-                        TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
+                        TaskList(provider: provider, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive).padding()
                     }
                 }.ignoresSafeArea()
                     .sheet(isPresented: $showAddTask){
@@ -144,21 +145,16 @@ struct TaskList: View {
     var body: some View {
         ForEach(filterTasks()){ task in
             var taskItem = task
-            HStack {
+            VStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
-                    if task.isDone {
+                    VStack(alignment: .leading){
                         Text("\(task.title ?? "Unknown")")
-                            .strikethrough()
-                        Spacer()
-                        Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
-                            .strikethrough()
-                    } else {
-                        Text("\(task.title ?? "Unknown")")
+                            .strikethrough(isCompleted ? true : false)
+                            .font(.title3)
+                            .bold()
                         Spacer()
                         Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
                     }
-                    
-                    
                 }
             }
             .swipeActions(edge: .trailing){
@@ -248,13 +244,18 @@ struct WeekList: View {
     var body: some View {
         ForEach(filterTasks()){ task in
             var taskItem = task
-            HStack {
+            VStack {
                 NavigationLink(destination: TaskView(taskItem: task, title: task.title ?? "Unknown Task", description: task.taskDescription ?? "No description", entryDate: task.entryDate ?? Date(), dueDate: task.dueDate ?? Date())){
+                    VStack(alignment: .leading){
                         Text("\(task.title ?? "Unknown")")
                             .strikethrough(isCompleted ? true : false)
+                            .font(.title3)
+                            .bold()
                         Spacer()
                         Text("\(task.dueDate ?? Date(), formatter: DateHandler.dayMonthYearDateFormatter )")
                             .strikethrough(isCompleted ? true : false)
+                    }
+                        
                 }
             }
             .swipeActions(edge: .trailing){

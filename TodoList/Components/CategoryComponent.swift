@@ -10,9 +10,11 @@ import SwiftUI
 struct CategoryComponent: View {
 //    @FetchRequest(sortDescriptors: []) var categories: FetchedResults<Category>
     @Environment(\.managedObjectContext) var moc
+    
     var categories: [Category]{
         return CategoryHandler.fetchCategories(moc: moc)
     }
+    
     @State var toggle: Bool = false
     @Binding var selectedCategory: String
     @Binding var categoryActive: Bool
@@ -36,7 +38,6 @@ struct CategoryComponent: View {
                     
 //                    let shouldUpdateStyle = (activeCategory == category) && (toggle != nil) && (categoryActive)
                     Button{
-                        
                         if activeCategory == category{
                             updateActiveCategory(with: category)
                         }else{
