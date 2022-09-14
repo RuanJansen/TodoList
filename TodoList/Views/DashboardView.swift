@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CompletionSummaryView: View {
+struct DashboardView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
     //Completed
     @State var valueCompleted: Float = 0.0

@@ -15,8 +15,8 @@ struct ContentView: View {
                 Label("My Taksk", systemImage: "list.bullet")
             }
             
-            DashBoardView().tabItem {
-                Label("Completion Summary", systemImage: "timelapse")
+            DashboardView().tabItem {
+                Label("Dashoard", systemImage: "timelapse")
             }
             
             
