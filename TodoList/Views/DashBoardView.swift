@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashBoardView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
     //Completed
     @State var valueCompleted: Float = 0.0
     @State var totalCompleted: Float = 0.0
@@ -28,7 +29,6 @@ struct DashBoardView: View {
     @State var progressbarColorArchived = Gradient(colors: [.white])
     @State var statTypeArchived: String = ""
     //Categories
-    @Environment(\.managedObjectContext) var moc
     var categories: [Category]{
         return CategoryHandler.fetchCategories(moc: moc)
     }
@@ -143,17 +143,7 @@ struct DashBoardView: View {
                     }
                 }.navigationTitle("Completion")
                     .sheet(isPresented: $showView){
-                        NavigationView{
-                            
-                            VStack{
-                                FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
-                                List{
-                                    ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive).padding()
-                                }
-                            }.navigationTitle(navTitle)
-                        }
-                        
-                        
+                        PopUpListView(isOverdue: $isOverdue, isCompleted: $isCompleted, showWeek: $showWeek, isArchive: $isArchive, selectedCategory: $selectedCategory, categoryActive: $categoryActive, navTitle: $navTitle)
                     }
             }
             
