@@ -40,9 +40,7 @@ struct DashBoardView: View {
     @State var showWeek = true
     @State var selectedCategory: String = ""
     @State var categoryActive: Bool = false
-    
-    //    @available(iOS 16.0, *)
-    //    @available(iOS 16.0, *)
+
     var body: some View {
         if tasks.isEmpty{
             Text("No data to show")
@@ -136,17 +134,13 @@ struct DashBoardView: View {
                                     isOverdue = false
                                     showWeek = false
                                     selectedCategory = category.name ?? "No Categories"
-                                    categoryActive = false
+                                    categoryActive = true
                                 }label:{
                                     Text(category.name ?? "No Categories")
                                 }
                             }
                         }
                     }
-                    
-
-                    
-                    
                 }.navigationTitle("Completion")
                     .sheet(isPresented: $showView){
                         NavigationView{
@@ -154,7 +148,7 @@ struct DashBoardView: View {
                             VStack{
                                 FilterComponent(isOverdue: $isOverdue, isCompleted: $isCompleted)
                                 List{
-                                    ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
+                                    ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive).padding()
                                 }
                             }.navigationTitle(navTitle)
                         }
