@@ -9,6 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @FetchRequest(sortDescriptors: []) var tasks: FetchedResults<Task>
+    @Environment(\.managedObjectContext) var moc
     //Completed
     @State var valueCompleted: Float = 0.0
     @State var totalCompleted: Float = 0.0
@@ -36,44 +37,48 @@ struct DashboardView: View {
     @State var selectedCategory: String = ""
     @State var categoryActive: Bool = false
     
+    var categories: [Category]{
+        return CategoryHandler.fetchCategories(moc: moc)
+    }
+    
     var body: some View {
         if tasks.isEmpty{
             Text("No data to show")
         }else{
             NavigationView {
-                Form {
+                VStack {
                     Section(header: Text("Charts")) {
                         ScrollView(.horizontal) {
                             HStack {
-        //                        NavigationLink(destination: {
-        //                            VStack {
-        //                                Form {
-        //                                    Section(header: Text(statTypeCompleted)) {
-        //
-        //                                        List{
-        //                                            ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
-        //                                        }
-        //                                    }
-        //                                }
-        //                            }
-        //                        })
-        //                        {
-        //                            VStack {
-        //                                ProgressBar(statType: $statTypeCompleted, percentage: $percentageCompleted, value: $valueCompleted, total: $totalCompleted, color: $progressbarColorCompleted)
-        //                                    .onAppear(){
-        //                                        let all = tasks.filter {!$0.isArchived}
-        //                                        let total = all.count
-        //                                        let task = all.filter{$0.isDone}.count
-        //                                        let percentage = Float(task)/Float(total)
-        //                                        self.valueCompleted = Float(task)
-        //                                        self.totalCompleted = Float(total)
-        //                                        self.percentageCompleted = percentage
-        //                                        self.progressbarColorCompleted = Gradient(colors: [.green, .mint, .mint, .green])
-        //                                        self.statTypeCompleted = "All Tasks"
-        //                                    }
-        //
-        //                            }
-        //                        }
+                                //                        NavigationLink(destination: {
+                                //                            VStack {
+                                //                                Form {
+                                //                                    Section(header: Text(statTypeCompleted)) {
+                                //
+                                //                                        List{
+                                //                                            ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory, categoryActive: $categoryActive)
+                                //                                        }
+                                //                                    }
+                                //                                }
+                                //                            }
+                                //                        })
+                                //                        {
+                                //                            VStack {
+                                //                                ProgressBar(statType: $statTypeCompleted, percentage: $percentageCompleted, value: $valueCompleted, total: $totalCompleted, color: $progressbarColorCompleted)
+                                //                                    .onAppear(){
+                                //                                        let all = tasks.filter {!$0.isArchived}
+                                //                                        let total = all.count
+                                //                                        let task = all.filter{$0.isDone}.count
+                                //                                        let percentage = Float(task)/Float(total)
+                                //                                        self.valueCompleted = Float(task)
+                                //                                        self.totalCompleted = Float(total)
+                                //                                        self.percentageCompleted = percentage
+                                //                                        self.progressbarColorCompleted = Gradient(colors: [.green, .mint, .mint, .green])
+                                //                                        self.statTypeCompleted = "All Tasks"
+                                //                                    }
+                                //
+                                //                            }
+                                //                        }
                                 
                                 VStack {
                                     ProgressBar(statType: $statTypeCompleted, percentage: $percentageCompleted, value: $valueCompleted, total: $totalCompleted, color: $progressbarColorCompleted)
@@ -131,19 +136,63 @@ struct DashboardView: View {
                         }
                     }
                     
-                    Section(header: Text("Categories")){
-//                        NavigationStack{
-//                            List{
-//                                NavigationLink("")
+//                    Section(header: Text("Categories")){
+                        List(categories){ category in
+                            NavigationLink(destination: {
+                                VStack {
+//                                    Form {
+//                                        Section(header: Text(selectedCategory)) {
+                                            List{
+                                                ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory , categoryActive: $categoryActive)
+                                                    
+                                            }.padding()
+//                                        }
+//                                    }
+                                }.onAppear(){
+                                    categoryActive = true
+                                    selectedCategory = category.name ?? ""
+                                }.navigationTitle(category.name ?? "")
+                                
+                                
+                            }, label: {
+                                Text(category.name ?? "")
+                            })
+                            
+                        }
+                            
+//                            if #available(iOS 16.0, *) {
+//                                NavigationStack{
+//                                    if #available(iOS 16.0, *) {
+//                                        List(categories){ category in
+//                                            if #available(iOS 16.0, *) {
+//                                                NavigationLink(category.name ?? "", value: category).onAppear(){
+//                                                    categoryActive = true
+//                                                    selectedCategory = category.name ?? ""
+//                                                }
+//                                            } else {
+//                                                // Fallback on earlier versions
+//                                            }
+//                                        }.navigationDestination(for: Category.self){ category in
+//                                            List{
+//                                                ListComponent(showWeek: $showWeek, isArchive: $isArchive, isCompleted: $isCompleted, isOverdue: $isOverdue, selectedCategory: $selectedCategory , categoryActive: $categoryActive)
+//                                            }
+//
+//                                        }
+//                                    } else {
+//                                        // Fallback on earlier versions
+//                                    }
+//                                }
+//                            } else {
+//                                // Fallback on earlier versions
 //                            }
-//                        }
-                    }
+                        }
+                    
                 }
             }
         }
         
     }
-}
+
 
 struct ProgressBar: View{
     @Binding var statType: String
@@ -153,10 +202,10 @@ struct ProgressBar: View{
     @Binding var color: Gradient
     var body: some View{
         ZStack{
-//            RoundedRectangle(cornerRadius: 30)
-//                .opacity(0.1)
-//                .foregroundColor(.white)
-//                .frame(width: 350, height: 350, alignment: .center)
+            //            RoundedRectangle(cornerRadius: 30)
+            //                .opacity(0.1)
+            //                .foregroundColor(.white)
+            //                .frame(width: 350, height: 350, alignment: .center)
             Circle()
                 .stroke(lineWidth: 20.0)
                 .opacity(0.20)
@@ -198,8 +247,8 @@ struct ProgressBar: View{
     
 }
 
-//struct CompletionSummaryView_Previews: PreviewProvider {
+//struct DashboardView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        CompletionSummaryView()
+//        DashboardView()
 //    }
 //}
